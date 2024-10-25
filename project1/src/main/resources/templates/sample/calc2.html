@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="" method="post">
+      <input type="text" name="num1" id="num1" size="5" />
+      <select name="op" id="">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+        <option value="%">%</option>
+      </select>
+      <input type="text" name="num2" id="num2" size="5" />
+      <button>계산</button>
+    </form>
+    <h2>계산 결과</h2>
+    <h3 th:text="${result}"></h3>
+    <div>
+      <!-- ?: null일 수도 있음 -->
+      <span th:text="${calcDto?.num1}"></span>
+      <span th:text="${calcDto?.op}"></span>
+      <span th:text="${calcDto?.num2}"></span>
+      =
+      <span th:text="${result}"></span>
+    </div>
+  </body>
+</html>

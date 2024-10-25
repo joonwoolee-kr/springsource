@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 
+    thymeleaf
+
+    th:text="${}"
+    -->
+    <h1 th:text="${'INDEX'}"></h1>
+    <h3 th:text="${name}"></h3>
+    <h3>이름: [[${name}]]</h3>
+    <ul>
+      <li th:text="${login.userid}"></li>
+      <li th:text="${login.password}"></li>
+    </ul>
+    <ul>
+      <li>아이디: [[${login.userid}]]</li>
+      <li>비밀번호: [[${login.password}]]</li>
+    </ul>
+    <!-- 디자인 부여, 스크립트 부여 시 편함 -->
+    <ul>
+      <li>아이디: <span th:text="${login?.userid}"></span></li>
+      <li>비밀번호: <span th:text="${login?.password}"></span></li>
+    </ul>
+
+    <ul>
+      <li>ID: <span th:text="${sampleDto?.id}"></span></li>
+      <li>FIRST: <span th:text="${sampleDto?.first}"></span></li>
+      <li>LAST: <span th:text="${sampleDto?.last}"></span></li>
+      <li>LOCALDATETIME: <span th:text="${sampleDto?.regDateTime}"></span></li>
+    </ul>
+
+    <ul>
+      <li th:each="dto : ${list}" th:text="${dto}"></li>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="" method="post">
+      <input type="text" name="num1" id="num1" size="5" />
+      +
+      <input type="text" name="num2" id="num2" size="5" />
+      <button>계산</button>
+    </form>
+    <h3 th:text="${result}">계산 결과:</h3>
+  </body>
+</html>
