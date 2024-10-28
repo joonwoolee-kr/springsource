@@ -19,6 +19,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class SampleController {
 
+    @GetMapping("/sample/list")
+    public void getList() {
+        log.info("list 요청");
+    }
+
+    @GetMapping("/sample/main")
+    public void getMain() {
+        log.info("main 요청");
+    }
+
     // @RequestMapping(path = "/basic", method = RequestMethod.GET)
     // public void basic() {
     // log.info("basic 컨트롤러 동작");
@@ -56,6 +66,7 @@ public class SampleController {
 
         rttr.addAttribute("age", 15); // redirect 시 주소의 파라메터로 딸려 보내기
         rttr.addAttribute("name", "hong");
+        rttr.addFlashAttribute("addr", "seoul");
 
         // sendRedirect(): redirect:경로
         return "redirect:/ex1"; // http://localhost:8080/ex1?age=15
@@ -76,8 +87,9 @@ public class SampleController {
     }
 
     @GetMapping("/sample/ex2")
-    public void getEx2() {
+    public void getEx2(String param1, String param2) {
         log.info("ex2 컨트롤러 동작");
+        log.info("{}, {}", param1, param2);
     }
 
     @GetMapping("/ex3")

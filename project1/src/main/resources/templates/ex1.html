@@ -12,5 +12,10 @@
       <li>주소줄에 오는 값: <span th:text="${param.name}"></span></li>
       <li>addFlashAttribute: <span th:text="${addr}"></span></li>
     </ul>
+    <script>
+      const age = [[${param.age}]];
+      const name = '[[${param.name}]]';
+      const addr = '[[${addr}]]';
+    </script>
   </body>
 </html>
