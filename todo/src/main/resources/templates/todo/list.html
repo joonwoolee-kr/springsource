@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{/layouts/layout}"
+>
+  <th:block layout:fragment="css"></th:block>
+  <main layout:fragment="content" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <!-- content 영역 -->
+    <h1>TODO</h1>
+    <div class="container">
+      <a th:href="@{list(completed='true')}" class="btn btn-secondary"
+        >완료 Todo</a
+      >
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">번호</th>
+            <th scope="col">할 일</th>
+            <th scope="col">중요 여부</th>
+            <th scope="col">완료 여부</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="dto : ${list}">
+            <th scope="row" th:text="${dto.id}"></th>
+            <td>
+              <a th:href="@{read(id=${dto.id})}" th:text="${dto.title}"></a>
+            </td>
+            <td>
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="important"
+                name="important"
+                th:checked="${dto.important}"
+              />
+            </td>
+            <td>
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="completed"
+                name="completed"
+                th:checked="${dto.completed}"
+                th:value="${dto.id}"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <form th:action="@{update}" method="post" id="comForm">
+      <input type="hidden" name="id" value="" />
+      <input type="hidden" name="completed" value="" />
+    </form>
+  </main>
+  <th:block layout:fragment="script">
+    <script th:src="@{/js/list.js}"></script>
+  </th:block>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{/layouts/layout}"
+>
+  <th:block layout:fragment="css"></th:block>
+  <main layout:fragment="content" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <!-- content 영역 -->
+    <div class="container">
+      <h1>Todo 상세</h1>
+      <div class="card">
+        <div class="card-header">Todo 보기</div>
+        <div class="card-body">
+          <form th:action="@{delete}" method="post">
+            <div class="mb-3">
+              <label for="title" class="form-label">할 일</label>
+              <textarea
+                name="title"
+                id="title"
+                class="form-control"
+                rows="5"
+                readonly
+              >
+[[${dto.title}]]</textarea
+              >
+            </div>
+            <div class="mb-3 form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="important"
+                name="important"
+                th:checked="${dto.important}"
+                disabled
+              />
+              <label class="form-check-label" for="exampleCheck1">중요</label>
+            </div>
+            <div class="mb-3 form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="completed"
+                name="completed"
+                th:checked="${dto.completed}"
+                disabled
+              />
+              <label class="form-check-label" for="completed">완료</label>
+            </div>
+            <input type="hidden" name="id" th:value="${dto.id}" />
+            <button class="btn btn-danger">삭제</button>
+            <a class="btn btn-primary" th:href="@{list}">목록</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+  <th:block layout:fragment="script"></th:block>
+</html>
