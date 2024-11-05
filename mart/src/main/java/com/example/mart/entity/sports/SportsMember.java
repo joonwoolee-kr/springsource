@@ -4,6 +4,7 @@ import com.example.mart.entity.item.BaseEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,22 +21,21 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "sportsMember")
+@ToString(exclude = "locker")
 @Setter
 @Getter
-@SequenceGenerator(name = "sports_locker_seq_gen", sequenceName = "sports_locker_seq", allocationSize = 1)
-@Table(name = "sports_locker")
+@SequenceGenerator(name = "sports_member_seq_gen", sequenceName = "sports_member_seq", allocationSize = 1)
+@Table(name = "sports_member")
 @Entity
-public class Locker extends BaseEntity {
+public class SportsMember extends BaseEntity {
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sports_locker_seq_gen")
-    @Column(name = "locker_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sports_member_seq_gen")
+    @Column(name = "member_id")
     @Id
     private Long id;
 
     private String name;
 
-    // 양방향
-    @OneToOne(mappedBy = "locker")
-    private SportsMember sportsMember;
+    @OneToOne(fetch = FetchType.LAZY)
+    private Locker locker;
 }

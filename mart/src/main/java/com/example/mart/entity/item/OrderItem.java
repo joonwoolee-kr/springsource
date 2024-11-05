@@ -24,7 +24,7 @@ import lombok.ToString;
 @SequenceGenerator(name = "mart_order_item_seq_gen", sequenceName = "mart_order_item_seq", allocationSize = 1)
 @Table(name = "mart_order_item")
 @Entity
-public class OrderItem {
+public class OrderItem extends BaseEntity {
 
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mart_order_item_seq_gen")
     @Column(name = "order_item_id")

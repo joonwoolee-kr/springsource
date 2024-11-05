@@ -1,13 +1,12 @@
-package com.example.mart.entity.sports;
+package com.example.mart.entity.cascade;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,21 +17,20 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "locker")
+@ToString(exclude = "parent")
 @Setter
 @Getter
-@SequenceGenerator(name = "sports_member_seq_gen", sequenceName = "sports_member_seq", allocationSize = 1)
-@Table(name = "sports_member")
 @Entity
-public class Member {
+public class Child {
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sports_member_seq_gen")
-    @Column(name = "member_id")
+    @SequenceGenerator(name = "child_seq_gen", sequenceName = "child_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "child_seq_gen")
     @Id
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
-    @OneToOne
-    private Locker locker;
+    @ManyToOne
+    private Parent parent;
 }
