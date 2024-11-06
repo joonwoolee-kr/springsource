@@ -15,6 +15,9 @@ import com.example.mart.entity.item.Item;
 import com.example.mart.entity.item.Member;
 import com.example.mart.entity.item.Order;
 import com.example.mart.entity.item.OrderItem;
+import com.example.mart.entity.product.Album;
+import com.example.mart.entity.product.Book;
+import com.example.mart.entity.product.Movie;
 import com.example.mart.repository.item.DeliveryRepository;
 import com.example.mart.repository.item.ItemRepository;
 import com.example.mart.repository.item.MemberRepository;
@@ -55,14 +58,37 @@ public class MartRepositoryTest {
 
     @Test
     public void itemInsertTest() {
-        IntStream.rangeClosed(1, 3).forEach(i -> {
-            Item item = Item.builder()
-                    .name("item" + i)
-                    .price(i * 10000)
-                    .quantity(i * 10)
-                    .build();
-            itemRepository.save(item);
-        });
+        // IntStream.rangeClosed(1, 3).forEach(i -> {
+        // Item item = Item.builder()
+        // .name("item" + i)
+        // .price(i * 10000)
+        // .quantity(i * 10)
+        // .build();
+        // itemRepository.save(item);
+        // });
+
+        Album album = new Album();
+        album.setArtist("로제");
+        album.setName("아파트");
+        album.setPrice(15200);
+        album.setQuantity(15);
+        itemRepository.save(album);
+
+        Book book = new Book();
+        book.setAuthor("한강");
+        book.setIsbn("122ㄱ");
+        book.setName("소년이 온다");
+        book.setPrice(10000);
+        book.setQuantity(15);
+        itemRepository.save(book);
+
+        Movie movie = new Movie();
+        movie.setActor("폴 메스칼");
+        movie.setDirector("리들리 스콧");
+        movie.setName("글래디에이터2");
+        movie.setPrice(25000);
+        movie.setQuantity(300);
+        itemRepository.save(movie);
     }
 
     @Test
