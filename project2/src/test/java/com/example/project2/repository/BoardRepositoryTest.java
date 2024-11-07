@@ -48,4 +48,11 @@ public class BoardRepositoryTest {
     public void deleteTest() {
         boardRepository.deleteById(9L);
     }
+
+    // 쿼리 메소드
+    @Test
+    public void testTitleList() {
+        boardRepository.findByTitle("title5").forEach(t -> System.out.println(t));
+        boardRepository.findByTitleLike("title%").forEach(t -> System.out.println(t));
+    }
 }
