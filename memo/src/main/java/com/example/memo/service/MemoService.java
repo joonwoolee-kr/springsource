@@ -6,7 +6,7 @@ import com.example.memo.dto.MemoDto;
 import com.example.memo.entity.Memo;
 
 public interface MemoService {
-    // CRUD
+    // crud 메소드
     Long create(MemoDto dto);
 
     MemoDto read(Long id);
@@ -17,16 +17,21 @@ public interface MemoService {
 
     void delete(Long id);
 
-    // dto => entity
+    // dto ==> entity
     public default Memo dtoToEntity(MemoDto dto) {
-        return Memo.builder().mno(dto.getMno()).memoText(dto.getMemoText()).build();
-    }
-
-    // entity => dto
-    public default MemoDto entityToDto(Memo memo) {
-        return MemoDto.builder().mno(memo.getMno()).memoText(memo.getMemoText())
-                .createdDateTime(memo.getCreatedDateTime()).lastModifiedDateTime(memo.getLastModifiedDateTime())
+        return Memo.builder()
+                .mno(dto.getMno())
+                .memoText(dto.getMemoText())
                 .build();
     }
 
+    // entity ==> dto
+    public default MemoDto entityToDto(Memo memo) {
+        return MemoDto.builder()
+                .mno(memo.getMno())
+                .memoText(memo.getMemoText())
+                .createdDateTime(memo.getCreatedDateTime())
+                .lastModifiedDateTime(memo.getLastModifiedDateTime())
+                .build();
+    }
 }

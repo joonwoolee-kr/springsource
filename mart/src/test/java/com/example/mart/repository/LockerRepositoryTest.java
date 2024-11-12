@@ -6,15 +6,17 @@ import java.util.stream.LongStream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.mart.entity.sports.Locker;
 import com.example.mart.entity.sports.SportsMember;
 import com.example.mart.repository.sports.LockerRepository;
 import com.example.mart.repository.sports.SportsMemberRepository;
 
+import jakarta.transaction.Transactional;
+
 @SpringBootTest
 public class LockerRepositoryTest {
+
     @Autowired
     private SportsMemberRepository memberRepository;
 
@@ -23,21 +25,18 @@ public class LockerRepositoryTest {
 
     @Test
     public void testLockerInsert() {
+        // locker 4
         IntStream.rangeClosed(5, 8).forEach(i -> {
-            // locker 4
-            Locker locker = Locker.builder()
-                    .name("locker" + i)
-                    .build();
+            Locker locker = Locker.builder().name("locker" + i).build();
             lockerRepository.save(locker);
         });
 
+        // member 4
         LongStream.rangeClosed(5, 8).forEach(i -> {
+
             Locker locker = Locker.builder().id(i).build();
-            // member 4
-            SportsMember member = SportsMember.builder()
-                    .name("user" + i)
-                    .locker(locker)
-                    .build();
+
+            SportsMember member = SportsMember.builder().name("user" + i).locker(locker).build();
             memberRepository.save(member);
         });
     }
@@ -59,7 +58,7 @@ public class LockerRepositoryTest {
         // 객체 그래프 탐색
         System.out.println(sportsMember.getLocker());
 
-        // 전체 회원 조회
+        // 전체회원조회
         memberRepository.findAll().forEach(member -> {
             System.out.println(member);
             System.out.println(member.getLocker());
@@ -69,10 +68,11 @@ public class LockerRepositoryTest {
     @Test
     public void testLockerRead() {
 
-        // 전체 회원 조회
+        // 전체locker 조회(+ 회원조회)
         lockerRepository.findAll().forEach(locker -> {
             System.out.println(locker);
             System.out.println(locker.getSportsMember());
         });
     }
+
 }

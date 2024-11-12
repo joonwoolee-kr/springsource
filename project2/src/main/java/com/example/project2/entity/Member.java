@@ -16,9 +16,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 // 회원 테이블
-// id, name, age
-// 회원가입일, 수정일이 필요
-// 회원 - 관리자 / 회원으로 구분됨
+// id, username, age
+// 회원가입일, 수정일이 필요, 
+// 회원 - 관리자,회원로 구분됨
 // 회원 이름은 필수로 입력 / 10자 내로 입력
 @Builder
 @NoArgsConstructor
@@ -26,10 +26,13 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity(name = "membertbl")
 public class Member {
+
     @Id
     private String id;
+
     @Column(name = "name", nullable = false, length = 30)
     private String username;
+
     private int age;
 
     private RoleType roleType;
@@ -39,4 +42,5 @@ public class Member {
 
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
+
 }

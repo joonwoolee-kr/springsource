@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,11 +20,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString(exclude = "childs")
-@Setter
 @Getter
+@Setter
 @Entity
 public class Parent {
 
@@ -36,15 +37,18 @@ public class Parent {
     private String name;
 
     // 양방향
-    // CascadeType.PERSIST: 영속 상태 전이
-    // CascadeType.MERGE: 병합
-    // CascadeType.REMOVE: 삭제
-    // CascadeType.ALL: 전체
+
+    // CascadeType.PERSIST : 영속 상태 전이
+    // CascadeType.MERGE : 병합
+    // CascadeType.REMOVE : 삭제
+    // CascadeType.ALL : 전체
     // CascadeType.REFRESH
     // CascadeType.DETACH
 
-    // orphanRemoval = true: 부모 entity에서 자식 entity의 참조 제거 => 자식 entity의 부모가 제거된 상태,
-    // 고아가 됨 => 고아가 된 entity 자동 삭제
+    // orphanRemoval = true : 부모 엔티티에서 자식엔티티의 참조 제거
+    // 자식 엔티티의 부모가 제거된 상태이고 고아가 되어버림
+    // 고아가 된 엔티티 자동 삭제
+
     @Builder.Default
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Child> childs = new ArrayList<>();

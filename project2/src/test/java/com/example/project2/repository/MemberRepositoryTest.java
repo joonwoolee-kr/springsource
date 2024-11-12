@@ -3,14 +3,13 @@ package com.example.project2.repository;
 import java.time.LocalDateTime;
 import java.util.stream.IntStream;
 
+import org.antlr.v4.runtime.misc.IntSet;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.project2.entity.Member;
 import com.example.project2.entity.constant.RoleType;
-
-import oracle.net.aso.m;
 
 @SpringBootTest
 public class MemberRepositoryTest {
@@ -28,8 +27,7 @@ public class MemberRepositoryTest {
         // .build();
         // memberRepository.save(member);
 
-        IntStream
-                .rangeClosed(2, 10)
+        IntStream.rangeClosed(2, 10)
                 .forEach(i -> {
                     Member member = Member.builder()
                             .id("user" + i)
@@ -55,12 +53,12 @@ public class MemberRepositoryTest {
 
     @Test
     public void updateTest() {
-        // save(): insert or update
+        // save() : insert or update
         // Member member = Member.builder()
         // .id("user8")
+        // .username("user8")
         // .age(28)
         // .roleType(RoleType.ADMIN)
-        // .username("user8")
         // .lastModifiedDate(LocalDateTime.now())
         // .build();
         Member member = memberRepository.findById("user9").get();
@@ -73,5 +71,6 @@ public class MemberRepositoryTest {
     public void deleteTest() {
         // memberRepository.delete(null);
         memberRepository.deleteById("user10");
+
     }
 }

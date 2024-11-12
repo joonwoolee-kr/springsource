@@ -118,15 +118,15 @@
     </th:block>
   </head>
   <body>
-    <!-- icon 영역 -->
+    <!--icon 영역-->
     <div th:replace="~{/fragments/icon::icon}"></div>
-    <!-- nav 영역 -->
+    <!--nav 영역-->
     <div th:replace="~{/fragments/nav::nav}"></div>
 
     <main class="container" layout:fragment="content">
       <!-- 개별 페이지 content 영역 -->
     </main>
-    <script src="@{/assets/dist/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/dist/js/bootstrap.bundle.min.js}"></script>
     <th:block layout:fragment="script">
       <!-- 개별 페이지 script 작성 영역 -->
     </th:block>

@@ -20,7 +20,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// 아이템명(item_nm), 가격(price), 재고수량(stock_number), 상세설명(item_detail), 판매상태(item_sell_status) - SELL, SOLD_OUT, 등록시간(reg_time), 수정시간(update_time)
+// 아이템명(item_nm), 가격(price), 재고수량(stock_number), 상세설명(item_detail),
+// 판매상태(item_sell_status) - SELL, SOLD_OUT, 등록시간(reg_time), 수정시간(update_time)
 
 @Builder
 @NoArgsConstructor
@@ -29,6 +30,7 @@ import lombok.NoArgsConstructor;
 @SequenceGenerator(name = "item_seq_gen", sequenceName = "item_seq", allocationSize = 1)
 @Entity
 public class Item {
+
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_seq_gen")
     @Id
     private Long id;
@@ -52,4 +54,5 @@ public class Item {
 
     @LastModifiedDate
     private LocalDateTime updateTime;
+
 }

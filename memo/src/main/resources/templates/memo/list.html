@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{/layouts/layout}">
   <th:block layout:fragment="css">
-    <style>
-      /* css 작성 */
-    </style>
+    <style></style>
   </th:block>
+
   <div layout:fragment="content" class="container">
     <div class="row mt-5">
       <div class="col-sm-3 mb-3 mb-sm-0" th:each="dto : ${list}">
@@ -19,16 +18,17 @@
             </p>
             <p
               class="card-text"
-              th:text="${#temporals.format(dto.lastModifiedDateTime, 'yyyy-MM-dd HH:mm')}"
+              th:text="${#temporals.format(dto.lastModifiedDateTime,'yyyy-MM-dd HH:mm')}"
             ></p>
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <th:block layout:fragment="script">
     <script>
-      // 스크립트 작성
+      //스크립트 작성
       const msg = "[[${msg}]]";
       if (msg) {
         alert(msg);

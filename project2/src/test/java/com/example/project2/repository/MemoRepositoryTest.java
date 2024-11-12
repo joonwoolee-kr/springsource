@@ -19,8 +19,10 @@ public class MemoRepositoryTest {
     // C(insert)
     @Test
     public void insertTest() {
+
         LongStream.rangeClosed(1, 10).forEach(i -> {
-            Memo memo = Memo.builder().mno(i).memoText("Memo Text..." + i).build();
+
+            Memo memo = Memo.builder().memoText("Memo Text...." + i).build();
             System.out.println(memoRepository.save(memo));
         });
     }
@@ -29,6 +31,7 @@ public class MemoRepositoryTest {
     @Test
     public void selectOneTest() {
         Optional<Memo> result = memoRepository.findById(5L);
+
         Memo memo = result.get();
         System.out.println(memo);
     }
@@ -36,26 +39,28 @@ public class MemoRepositoryTest {
     @Test
     public void selectAllTest() {
         List<Memo> list = memoRepository.findAll();
+
         for (Memo memo : list) {
             System.out.println(memo);
         }
-
     }
 
-    // U(Update)
+    // U
     @Test
     public void updateTest() {
         Optional<Memo> result = memoRepository.findById(5L);
+
         result.ifPresent(memo -> {
-            memo.setMemoText("Update Title...");
+            memo.setMemoText("Update Title....");
             System.out.println(memoRepository.save(memo));
         });
     }
 
-    // D(Delete)
+    // D
     @Test
     public void deleteTest() {
         // Optional<Memo> result = memoRepository.findById(10L);
+
         // result.ifPresent(memo -> {
         // memoRepository.delete(memo);
         // });
