@@ -7,7 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -24,7 +23,7 @@ import lombok.ToString;
 @ToString(exclude = "sportsMember")
 @Setter
 @Getter
-@SequenceGenerator(name = "sports_locker_seq_gen", sequenceName = "locker_seq", allocationSize = 1)
+@SequenceGenerator(name = "sports_locker_seq_gen", sequenceName = "sports_locker_seq", allocationSize = 1)
 @Table(name = "sports_locker")
 @Entity
 public class Locker extends BaseEntity {

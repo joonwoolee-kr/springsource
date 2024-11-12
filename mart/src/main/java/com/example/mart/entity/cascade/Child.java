@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,11 +15,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@Getter
+@NoArgsConstructor
+@ToString(exclude = "parent")
 @Setter
+@Getter
 @Entity
 public class Child {
 

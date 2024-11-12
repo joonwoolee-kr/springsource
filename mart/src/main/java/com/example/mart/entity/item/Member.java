@@ -45,5 +45,4 @@ public class Member extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
-
 }

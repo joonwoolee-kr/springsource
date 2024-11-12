@@ -20,11 +20,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString(exclude = "order")
-@Getter
 @Setter
+@Getter
 @Table(name = "mart_delivery")
 @Entity
 public class Delivery extends BaseEntity {

@@ -30,11 +30,18 @@
         </li>
       </ul>
       <form class="d-flex" role="search">
+        <select name="type" id="type" class="form-select me-2">
+          <option value="">조건 선택</option>
+          <option value="c">분류</option>
+          <option value="t">제목</option>
+          <option value="w">저자</option>
+        </select>
         <input
           class="form-control me-2"
           type="search"
           placeholder="Search"
           aria-label="Search"
+          name="keyword"
         />
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>

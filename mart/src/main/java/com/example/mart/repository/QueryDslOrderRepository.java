@@ -13,4 +13,6 @@ public interface QueryDslOrderRepository {
 
     List<Object[]> joinTest();
 
+    List<Object[]> subQueryTest();
+
 }
