@@ -23,7 +23,7 @@
           <td th:text="${dto.categoryName}"></td>
           <td>
             <a
-              th:href="@{read(id=${dto.id})}"
+              th:href="@{read(id=${dto.id}, page=${requestDto.page},size=${requestDto.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
               class="text-decoration-none"
               th:text="${dto.title}"
             ></a>
@@ -49,7 +49,7 @@
         >
           <a
             class="page-link"
-            th:href="@{list(page=${page},size=${result.size})}"
+            th:href="@{list(page=${page},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
             th:text="${page}"
           ></a>
         </li>

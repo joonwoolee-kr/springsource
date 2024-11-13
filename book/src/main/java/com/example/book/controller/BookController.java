@@ -70,15 +70,15 @@ public class BookController {
 
     // 전체 목록 조회
     @GetMapping("/list")
-    public void getList(PageRequestDto requestDto, Model model) {
-        log.info("도서 전체 목록 요청");
+    public void getList(@ModelAttribute("requestDto") PageRequestDto requestDto, Model model) {
+        log.info("도서 전체 목록 요청 {}", requestDto);
         PageResultDto<BookDto, Book> result = bookService.getList(requestDto);
         model.addAttribute("result", result);
     }
 
     // 도서 상세 조회
     @GetMapping(value = { "/read", "/modify" })
-    public void getRow(Long id, Model model) {
+    public void getRow(Long id, @ModelAttribute("requestDto") PageRequestDto requestDto, Model model) {
         log.info("도서 상세 조회 요청");
         BookDto dto = bookService.getRow(id);
         model.addAttribute("dto", dto);
@@ -86,19 +86,36 @@ public class BookController {
 
     // 도서 정보 수정
     @PostMapping("/modify")
-    public String postModify(BookDto dto, RedirectAttributes rttr) {
+    public String postModify(BookDto dto, @ModelAttribute("requestDto") PageRequestDto requestDto,
+            RedirectAttributes rttr) {
         log.info("도서 정보 수정 {}", dto);
+        // get 후 post => requestDto 값 사용 가능
+        log.info("requestDto {}", requestDto);
+
         Long id = bookService.update(dto);
+
         rttr.addAttribute("id", id);
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("size", requestDto.getSize());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
 
         return "redirect:read";
     }
 
     // 도서 삭제
     @PostMapping("/delete")
-    public String postDelete(@RequestParam Long id) {
+    public String postDelete(@RequestParam Long id, @ModelAttribute("requestDto") PageRequestDto requestDto,
+            RedirectAttributes rttr) {
         log.info("도서 삭제 {}", id);
+        log.info("requestDto {}", requestDto);
+
         bookService.delete(id);
+
+        rttr.addAttribute("page", requestDto.getPage());
+        rttr.addAttribute("size", requestDto.getSize());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
 
         return "redirect:list";
     }

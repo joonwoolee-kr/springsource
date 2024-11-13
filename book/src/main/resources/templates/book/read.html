@@ -104,8 +104,16 @@
         </div>
       </div>
       <div>
-        <a th:href="@{modify(id=${dto.id})}" class="btn btn-primary">수정</a>
-        <a th:href="@{list}" class="btn btn-secondary">목록</a>
+        <a
+          th:href="@{modify(id=${dto.id},page=${requestDto.page},size=${requestDto.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
+          class="btn btn-primary"
+          >수정</a
+        >
+        <a
+          th:href="@{list(page=${requestDto.page},size=${requestDto.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
+          class="btn btn-secondary"
+          >목록</a
+        >
       </div>
     </form>
   </div>
