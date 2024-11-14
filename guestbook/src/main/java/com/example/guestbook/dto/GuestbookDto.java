@@ -2,8 +2,7 @@ package com.example.guestbook.dto;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,16 +16,17 @@ import lombok.ToString;
 @ToString
 @Setter
 @Getter
-@Entity
 public class GuestbookDto {
 
-    @Id
     private Long gno;
 
+    @NotBlank(message = "Title은 필수 입력 요소입니다.")
     private String title;
 
+    @NotBlank(message = "Content는 필수 입력 요소입니다.")
     private String content;
 
+    @NotBlank(message = "Writer는 필수 입력 요소입니다.")
     private String writer;
 
     private LocalDateTime regDate;

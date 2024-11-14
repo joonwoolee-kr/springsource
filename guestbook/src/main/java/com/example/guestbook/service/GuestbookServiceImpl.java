@@ -26,22 +26,22 @@ public class GuestbookServiceImpl implements GuestbookService {
 
     @Override
     public Long register(GuestbookDto dto) {
-        return null;
+        Guestbook guestbook = dtoToEntity(dto);
+        guestbookRepository.save(guestbook);
+        return guestbook.getGno();
     }
 
     @Override
     public GuestbookDto read(Long gno) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'read'");
+        return entityToDto(guestbookRepository.findById(gno).get());
     }
 
     @Override
     public PageResultDto<GuestbookDto, Guestbook> list(PageRequestDto requestDto) {
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("gno").descending());
+        Pageable pageable = requestDto.getPageable(Sort.by("gno").descending());
 
-        Page<Guestbook> result = guestbookRepository.findAll(
-                guestbookRepository.makePredicate(requestDto.getType(), requestDto.getKeyword()),
-                pageable);
+        Page<Guestbook> result = guestbookRepository
+                .findAll(guestbookRepository.makePredicate(requestDto.getType(), requestDto.getKeyword()), pageable);
 
         Function<Guestbook, GuestbookDto> fn = (entity -> entityToDto(entity));
 
@@ -50,14 +50,16 @@ public class GuestbookServiceImpl implements GuestbookService {
 
     @Override
     public Long update(GuestbookDto dto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        Guestbook guestbook = guestbookRepository.findById(dto.getGno()).get();
+        guestbook.setTitle(dto.getTitle());
+        guestbook.setContent(dto.getContent());
+        guestbookRepository.save(guestbook);
+        return guestbook.getGno();
     }
 
     @Override
     public void delete(Long gno) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        guestbookRepository.deleteById(gno);
     }
 
 }
