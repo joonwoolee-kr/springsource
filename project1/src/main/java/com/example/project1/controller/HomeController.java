@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.project1.dto.LoginDto;
 import com.example.project1.dto.SampleDto;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Log4j2
 @Controller
@@ -60,4 +62,11 @@ public class HomeController {
 
         return "index";
     }
+
+    @ResponseBody
+    @GetMapping("/test")
+    public String getMethodName() {
+        return "반갑습니다.";
+    }
+
 }

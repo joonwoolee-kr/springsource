@@ -8,7 +8,7 @@ import com.example.board.entity.Member;
 
 public interface BoardService {
 
-    Long register(BoardDto dto);
+    Long create(BoardDto dto);
 
     PageResultDto<BoardDto, Object[]> getList(PageRequestDto requestDto);
 

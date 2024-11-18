@@ -58,8 +58,8 @@
       </div> -->
       <input type="hidden" name="writerEmail" th:value="${dto.writerEmail}" />
       <button type="submit" class="btn btn-primary">Modify</button>
-      <button class="btn btn-danger">Remove</button>
-      <button class="btn btn-info">List</button>
+      <button type="button" class="btn btn-danger">Remove</button>
+      <button type="button" class="btn btn-info">List</button>
     </form>
     <!-- 삭제/목록 버튼 클릭 시 사용할 폼 -->
     <form th:action="@{list}" method="post" id="actionForm">
