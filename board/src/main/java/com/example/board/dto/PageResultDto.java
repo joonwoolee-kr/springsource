@@ -11,7 +11,8 @@ import org.springframework.data.domain.Pageable;
 import lombok.Data;
 
 // Page<Book> result 결과를 담는 Dto
-// Entity => Dto: result.getContent() => List<BookDto> 변경
+// Entity ==> Dto : result.getContent() ==> List<BookDto> 변경
+
 @Data
 public class PageResultDto<DTO, EN> {
 
@@ -37,6 +38,11 @@ public class PageResultDto<DTO, EN> {
     private List<Integer> pageList;
 
     public PageResultDto(Page<EN> result, Function<EN, DTO> fn) {
+
+        // List<Book> books = result.getContent();
+        // List<BookDto> list = books.stream().map(b ->
+        // entityToDto(b)).collect(Collectors.toList());
+
         dtoList = result.stream().map(fn).collect(Collectors.toList());
         totalPage = result.getTotalPages();
         makePageList(result.getPageable());
@@ -44,6 +50,7 @@ public class PageResultDto<DTO, EN> {
 
     private void makePageList(Pageable pageable) {
         // 사용자가 요청한 페이지 번호
+        // 0 이 1 page
         this.page = pageable.getPageNumber() + 1;
         this.size = pageable.getPageSize();
 
@@ -53,9 +60,11 @@ public class PageResultDto<DTO, EN> {
         this.prev = this.start > 1;
         this.end = totalPage > tempEnd ? tempEnd : totalPage;
         this.next = totalPage > tempEnd;
+
+        // IntStream.rangeClosed(start, end) : int
+
         pageList = IntStream.rangeClosed(start, end)
-                .boxed() // int => Integer(리스트는 객체로만 담을 수 있기 때문에)
+                .boxed() // int ==> Integer
                 .collect(Collectors.toList());
     }
-
 }

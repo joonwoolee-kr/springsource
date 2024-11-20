@@ -2,14 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Board + Reply + Member</title>
-    <!-- font awesome -->
+    <!--font awesome-->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -26,6 +23,7 @@
     <div class="d-flex" id="wrapper">
       <!-- Sidebar-->
       <div th:replace="~{/fragments/sidebar::sidebar}"></div>
+
       <!-- Page content wrapper-->
       <div id="page-content-wrapper">
         <!-- Top navigation-->
@@ -41,6 +39,6 @@
     <!-- Core theme JS-->
     <script th:src="@{/js/scripts.js}"></script>
     <!-- Custom JS -->
-    <th:block layout:fragment="script"></th:block>
+    <th:block layout:fragment="script"> </th:block>
   </body>
 </html>

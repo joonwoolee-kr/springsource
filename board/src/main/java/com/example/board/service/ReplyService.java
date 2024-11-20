@@ -7,6 +7,7 @@ import com.example.board.entity.Board;
 import com.example.board.entity.Reply;
 
 public interface ReplyService {
+
     Long register(ReplyDto replyDto);
 
     List<ReplyDto> list(Long bno);
@@ -19,28 +20,28 @@ public interface ReplyService {
 
     // entity => dto
     default ReplyDto entityToDto(Reply entity) {
-        return ReplyDto.builder()
+        ReplyDto dto = ReplyDto.builder()
                 .rno(entity.getRno())
-                .replyer(entity.getReplyer())
                 .text(entity.getText())
+                .replyer(entity.getReplyer())
                 .bno(entity.getBoard().getBno())
                 .regDate(entity.getRegDate())
                 .updateDate(entity.getUpdateDate())
                 .build();
-
+        return dto;
     }
 
-    // dto => entity
+    // dto=> entity
     default Reply dtoToEntity(ReplyDto dto) {
 
         Board board = Board.builder().bno(dto.getBno()).build();
 
-        return Reply.builder()
+        Reply entity = Reply.builder()
                 .rno(dto.getRno())
-                .replyer(dto.getReplyer())
                 .text(dto.getText())
+                .replyer(dto.getReplyer())
                 .board(board)
                 .build();
+        return entity;
     }
-
 }

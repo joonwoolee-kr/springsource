@@ -39,19 +39,18 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         QReply qReply = QReply.reply;
 
         // select 절에 사용할 subquery
-        JPQLQuery<Long> replyCnt = JPAExpressions.select(qReply.rno.count())
+        JPQLQuery<Long> replyCnt = JPAExpressions
+                .select(qReply.rno.count())
                 .from(qReply)
                 .where(qReply.board.eq(qBoard))
                 .groupBy(qReply.board);
 
-        // 1) from 절 부터 구현 join
-        // 2) select
+        // 1) from 절부터 구현 : join 2) select
         JPQLQuery<Tuple> tuple = from(qBoard)
-                .leftJoin(qMember)
-                .on(qBoard.writer.eq(qMember))
+                .leftJoin(qMember).on(qBoard.writer.eq(qMember))
                 .select(qBoard, qMember, replyCnt);
 
-        System.out.println("======== 쿼리문 확인");
+        System.out.println("========== 쿼리문 확인");
         System.out.println(tuple);
 
         List<Tuple> result = tuple.fetch();
@@ -66,16 +65,14 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         QReply qReply = QReply.reply;
 
         // select 절에 사용할 subquery
-        JPQLQuery<Long> replyCnt = JPAExpressions.select(qReply.rno.count())
+        JPQLQuery<Long> replyCnt = JPAExpressions
+                .select(qReply.rno.count())
                 .from(qReply)
                 .where(qReply.board.eq(qBoard))
                 .groupBy(qReply.board);
 
-        // 1) from 절 부터 구현 join
-        // 2) select
         JPQLQuery<Tuple> tuple = from(qBoard)
-                .leftJoin(qMember)
-                .on(qBoard.writer.eq(qMember))
+                .leftJoin(qMember).on(qBoard.writer.eq(qMember))
                 .select(qBoard, qMember, replyCnt);
 
         // bno > 0 조건
@@ -83,21 +80,20 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         builder.and(qBoard.bno.gt(0L));
 
         if (type != null) {
+            // content like '%검색어%' or title like '%검색어%' or writer like '%검색어%'
             BooleanBuilder conditionBuilder = new BooleanBuilder();
 
-            // 카테고리
             if (type.contains("c")) { // 내용
                 conditionBuilder.or(qBoard.content.contains(keyword));
             }
-            // 제목
+
             if (type.contains("t")) { // 제목
                 conditionBuilder.or(qBoard.title.contains(keyword));
             }
-            // 저자
+
             if (type.contains("w")) { // 작성자
                 conditionBuilder.or(qMember.email.contains(keyword));
             }
-
             builder.and(conditionBuilder);
         }
 
@@ -110,8 +106,9 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
             // sort 기준 컬럼명 가져오기
             String prop = order.getProperty();
 
-            // order를 어느 엔티티에 적용할 것인지
+            // order 를 어느 엔티티에 적용할 것인가?
             PathBuilder<Board> orderByExpression = new PathBuilder<>(Board.class, "board");
+
             tuple.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
         });
 
@@ -133,15 +130,14 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         QReply qReply = QReply.reply;
 
         // select 절에 사용할 subquery
-        JPQLQuery<Long> replyCnt = JPAExpressions.select(qReply.rno.count())
+        JPQLQuery<Long> replyCnt = JPAExpressions
+                .select(qReply.rno.count())
                 .from(qReply)
                 .where(qReply.board.eq(qBoard))
                 .groupBy(qReply.board);
 
-        // query
         JPQLQuery<Tuple> tuple = from(qBoard)
-                .leftJoin(qMember)
-                .on(qBoard.writer.eq(qMember))
+                .leftJoin(qMember).on(qBoard.writer.eq(qMember))
                 .select(qBoard, qMember, replyCnt)
                 .where(qBoard.bno.eq(bno));
 

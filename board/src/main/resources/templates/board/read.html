@@ -5,14 +5,7 @@
 
     <div class="mb-3">
       <label for="bno">Bno</label>
-      <input
-        type="text"
-        name="bno"
-        id="bno"
-        class="form-control"
-        readonly
-        th:value="${dto.bno}"
-      />
+      <input type="text" name="bno" id="bno" class="form-control" readonly th:value="${dto.bno}" />
     </div>
     <div class="mb-3">
       <label for="title">Title</label>
@@ -68,46 +61,62 @@
       class="btn btn-info"
       >List</a
     >
-
+    <!-- 댓글 폼 영역 -->
+    <div class="mt-5">
+      <hr />
+      <div class="border p-4">
+        <form action="" method="post" id="replyForm">
+          <input type="hidden" name="rno" value="" id="rno" />
+          <div class="input-group mb-3">
+            <span class="input-group-text">작성자</span>
+            <input type="text" name="replyer" id="replyer" class="form-control" />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">댓글</span>
+            <textarea name="text" id="text" rows="3" class="form-control"></textarea>
+            <button class="btn btn-outline-secondary" type="submit">등록</button>
+          </div>
+        </form>
+      </div>
+    </div>
     <!-- 댓글 영역 -->
     <div class="row mt-4">
-      <h5 class="my-4 border-bottom">
+      <h5 class="p-3 border-bottom">
         <i class="fa-regular fa-comment"></i>
         <span class="d-inline-block mx-2"></span> 개의 댓글
       </h5>
-    </div>
-    <div class="list-group reply-list">
-      <!-- <div
-        class="d-flex justify-content-between my-2 border-bottom reply-row"
-        data-rno=""
-      >
-        <div class="p-3">
-          <img src="" alt="" class="rounded-circle mx-auto d-block" />
-        </div>
-        <div class="flex-grow-1 align-self-center">
-          <span>
-            작성자명
-          </span>
-          <div>
-            <span class="fs-5">
-              댓글 내용
+
+      <div class="list-group reply-list">
+        <!--
+        <div class="d-flex justify-content-between my-2 border-bottom reply-row" data-rno="">
+          <div class="p-3">
+            <img src="" alt="" class="rounded-circle mx-auto d-block" />
+          </div>
+          <div class="flex-grow-1 align-self-center">
+            <span>
+              작성자명
             </span>
+            <div>
+              <span class="fs-5">
+                댓글 내용
+              </span>
+            </div>
+            <div class="text-muted">
+              <span class="small">
+                작성 날짜
+              </span>
+            </div>
           </div>
-          <div class="text-muted">
-            <span class="small">
-              작성 날짜
-            </span>
+          <div class="d-flex flex-column align-self-center">
+            <div class="mb-2">
+              <button class="btn btn-outline-danger btn-sm">삭제</button>
+            </div>
+            <div>
+              <button class="btn btn-outline-success btn-sm">수정</button>
+            </div>
           </div>
         </div>
-        <div class="d-flex flex-column align-self-center">
-          <div class="mb-2">
-            <button class="btn btn-outline-danger btn-sm">삭제</button>
-          </div>
-          <div>
-            <button class="btn btn-outline-success btn-sm">수정</button>
-          </div>
-        </div>
-      </div> -->
+      --></div>
     </div>
   </div>
   <th:block layout:fragment="script">

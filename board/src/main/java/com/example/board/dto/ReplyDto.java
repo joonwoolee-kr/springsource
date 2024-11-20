@@ -12,12 +12,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class ReplyDto {
-    private Long rno;
 
-    private String replyer;
+    private Long rno;
 
     private String text;
 
+    private String replyer;
+
+    // private Board board;
     private Long bno; // 게시글 번호(부모)
 
     private LocalDateTime regDate;

@@ -1,5 +1,8 @@
 package com.example.board.entity;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,26 +18,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Entity
+@ToString(exclude = { "board" })
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "board")
-@Getter
-@Setter
-@Entity
 public class Reply extends BaseEntity {
 
-    @SequenceGenerator(name = "reply_seq_gen", sequenceName = "reply_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reply_seq_gen")
     @Id
+    @SequenceGenerator(name = "reply_seq_gen", sequenceName = "reply_seq", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reply_seq_gen")
     private Long rno;
-
-    @Column(nullable = false)
-    private String replyer;
 
     @Column(nullable = false)
     private String text;
 
+    private String replyer;
+
+    // fetch=>EAGER
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
+
 }

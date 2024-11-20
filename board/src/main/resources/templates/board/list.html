@@ -4,7 +4,7 @@
     <h2>
       Board List
       <span>
-        <a class="btn btn-outline-primary" th:href="@{create}">REGISTER</a>
+        <a class="btn btn-outline-primary" th:href="@{register}">REGISTER</a>
       </span>
     </h2>
     <!-- 검색 -->
@@ -14,23 +14,13 @@
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <select name="type" id="" class="form-select">
-            <option value="" th:selected="${requestDto.type == null}">
-              --------------------
-            </option>
-            <option value="t" th:selected="${requestDto.type == 't'}">
-              제목
-            </option>
-            <option value="c" th:selected="${requestDto.type == 'c'}">
-              내용
-            </option>
-            <option value="w" th:selected="${requestDto.type == 'w'}">
-              작성자
-            </option>
-            <option value="tc" th:selected="${requestDto.type == 'tc'}">
-              제목+내용
-            </option>
+            <option th:selected="${requestDto.type == null}">-----------</option>
+            <option value="t" th:selected="${requestDto.type == 't'}">제목</option>
+            <option value="c" th:selected="${requestDto.type == 'c'}">내용</option>
+            <option value="w" th:selected="${requestDto.type == 'w'}">작성자</option>
+            <option value="tc" th:selected="${requestDto.type == 'tc'}">제목 + 내용</option>
             <option value="tcw" th:selected="${requestDto.type == 'tcw'}">
-              제목+내용+작성자
+              제목 + 내용 + 작성자
             </option>
           </select>
         </div>
@@ -44,31 +34,29 @@
         <button class="btn btn-outline-secondary">Search</button>
       </div>
     </form>
-    <!-- gno, title, writer, regDate -->
-    <table class="table">
+
+    <table class="table table-striped mt-2">
       <thead>
         <tr>
           <th scope="col">Bno</th>
           <th scope="col">Title</th>
           <th scope="col">Writer</th>
-          <th scope="col">RegDate</th>
+          <th scope="col">Regdate</th>
         </tr>
       </thead>
       <tbody>
         <tr th:each="dto : ${result.dtoList}">
-          <th scope="row" th:text="${dto.bno}"></th>
+          <td th:text="${dto.bno}"></td>
           <td>
             <a
               th:href="@{read(bno=${dto.bno},page=${requestDto.page},size=${requestDto.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
               class="text-decoration-none"
               >[[${dto.title}]]</a
             >
-            [<b th:text="${dto.replyCnt != null ? dto.replyCnt : 0}"></b>]
+            --- [<b th:text="${dto.replyCnt != null ? dto.replyCnt : 0}"></b>]
           </td>
           <td th:text="${dto.writerEmail}"></td>
-          <td
-            th:text="${#temporals.format(dto.regDate,'yyyy/MM/dd HH:mm')}"
-          ></td>
+          <td th:text="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm')}"></td>
         </tr>
       </tbody>
     </table>
@@ -77,12 +65,13 @@
         <li class="page-item" th:if="${result.prev}">
           <a
             class="page-link"
-            th:href="@{list(page=${result.start - 1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
+            th:href="@{list(page=${result.start-1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
             >Previous</a
           >
         </li>
+
         <li
-          th:class="'page-item ' + ${result.page == page ? 'active' : ''}"
+          th:class="'page-item ' + ${result.page == page ?'active':''}"
           aria-current="page"
           th:each="page : ${result.pageList}"
         >
@@ -92,10 +81,11 @@
             th:text="${page}"
           ></a>
         </li>
+
         <li class="page-item" th:if="${result.next}">
           <a
             class="page-link"
-            th:href="@{list(page=${result.end + 1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
+            th:href="@{list(page=${result.end+1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
             >Next</a
           >
         </li>

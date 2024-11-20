@@ -8,7 +8,8 @@ import com.example.board.entity.Member;
 
 public interface BoardService {
 
-    Long create(BoardDto dto);
+    // crud
+    Long register(BoardDto dto);
 
     PageResultDto<BoardDto, Object[]> getList(PageRequestDto requestDto);
 
@@ -34,11 +35,14 @@ public interface BoardService {
 
     // dto => entity
     public default Board dtoToEntity(BoardDto dto) {
+
+        Member member = Member.builder().email(dto.getWriterEmail()).build();
+
         return Board.builder()
                 .bno(dto.getBno())
                 .title(dto.getTitle())
                 .content(dto.getContent())
-                .writer(Member.builder().email(dto.getWriterEmail()).build())
+                .writer(member)
                 .build();
     }
 

@@ -16,6 +16,7 @@ public class BoardServiceTest {
 
     @Test
     public void testList() {
+
         PageRequestDto requestDto = new PageRequestDto();
         PageResultDto<BoardDto, Object[]> result = boardService.getList(requestDto);
 
