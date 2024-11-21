@@ -13,11 +13,14 @@
   </head>
   <body>
     <div class="container">
-      <h3>LOGIN</h3>
-      <form th:action="@{/users/login}" method="post">
-        <div class="alert alert-danger" role="alert" th:if="${param.error}">
-          이메일이나 비밀번호를 확인해 주세요
-        </div>
+      <h3>REGISTER</h3>
+      <!-- novalidate: html5에서 제공해주는 기본 validation 사용 안 함 -->
+      <form
+        th:action="@{/users/register}"
+        method="post"
+        th:object="${dto}"
+        novalidate
+      >
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label"
             >Email address</label
@@ -27,11 +30,14 @@
             class="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
-            name="username"
+            name="email"
+            th:value="${dto.email}"
           />
-          <div id="emailHelp" class="form-text">
-            We'll never share your email with anyone else.
-          </div>
+          <div
+            th:if="${#fields.hasErrors('email')}"
+            th:errors="*{email}"
+            class="text-danger"
+          ></div>
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Password</label>
@@ -40,30 +46,31 @@
             class="form-control"
             id="exampleInputPassword1"
             name="password"
+            th:value="${dto.password}"
           />
+          <div
+            th:if="${#fields.hasErrors('password')}"
+            th:errors="*{password}"
+            class="text-danger"
+          ></div>
         </div>
-        <div class="mb-3 form-check">
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
           <input
-            type="checkbox"
-            class="form-check-input"
-            id="exampleCheck1"
-            name="remember-me"
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            th:value="${dto.name}"
           />
-          <label class="form-check-label" for="exampleCheck1"
-            >Remember me</label
-          >
+          <div
+            th:if="${#fields.hasErrors('name')}"
+            th:errors="*{name}"
+            class="text-danger"
+          ></div>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
-      <b>
-        <a href="/oauth2/authorization/google">구글 로그인</a>
-      </b>
     </div>
-    <script>
-      const msg = "[[${email}]]";
-      if (msg) {
-        alert(msg + "님 회원 가입이 완료되었습니다.");
-      }
-    </script>
   </body>
 </html>
