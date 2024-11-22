@@ -5,7 +5,14 @@
 
     <div class="mb-3">
       <label for="bno">Bno</label>
-      <input type="text" name="bno" id="bno" class="form-control" readonly th:value="${dto.bno}" />
+      <input
+        type="text"
+        name="bno"
+        id="bno"
+        class="form-control"
+        readonly
+        th:value="${dto.bno}"
+      />
     </div>
     <div class="mb-3">
       <label for="title">Title</label>
@@ -51,9 +58,11 @@
         readonly
       />
     </div>
+    <!-- 로그인 사용자 == 글 작성자 -->
     <a
       th:href="@{modify(bno=${dto.bno},page=${requestDto.page},size=${requestDto.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
       class="btn btn-primary"
+      th:if="${#authentication.name == dto.writerEmail}"
       >Modify</a
     >
     <a
@@ -64,18 +73,38 @@
     <!-- 댓글 폼 영역 -->
     <div class="mt-5">
       <hr />
-      <div class="border p-4">
+      <div class="border p-4" sec:authorize="isAuthenticated()">
         <form action="" method="post" id="replyForm">
           <input type="hidden" name="rno" value="" id="rno" />
           <div class="input-group mb-3">
             <span class="input-group-text">작성자</span>
-            <input type="text" name="replyer" id="replyer" class="form-control" />
+            <input
+              type="text"
+              name="replyerName"
+              id="replyerName"
+              class="form-control"
+              th:value="${#authentication.principal.memberDto.name}"
+              readonly
+            />
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">댓글</span>
-            <textarea name="text" id="text" rows="3" class="form-control"></textarea>
-            <button class="btn btn-outline-secondary" type="submit">등록</button>
+            <textarea
+              name="text"
+              id="text"
+              rows="3"
+              class="form-control"
+            ></textarea>
+            <button class="btn btn-outline-secondary" type="submit">
+              등록
+            </button>
           </div>
+          <input
+            type="hidden"
+            name="replyerEmail"
+            th:value="${#authentication.name}"
+            id="replyerEmail"
+          />
         </form>
       </div>
     </div>
@@ -122,6 +151,10 @@
   <th:block layout:fragment="script">
     <script>
       const bno = "[[${dto.bno}]]";
+      // csrf 생성
+      const csrfValue = "[[${_csrf.token}]]";
+      // 현재 로그인 사용자의 이메일
+      const loginEmail = "[[${#authentication.name}]]";
     </script>
     <script th:src="@{/js/read.js}"></script>
   </th:block>

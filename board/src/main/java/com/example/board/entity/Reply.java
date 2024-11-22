@@ -35,7 +35,8 @@ public class Reply extends BaseEntity {
     @Column(nullable = false)
     private String text;
 
-    private String replyer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member replyer;
 
     // fetch=>EAGER
     @ManyToOne(fetch = FetchType.LAZY)

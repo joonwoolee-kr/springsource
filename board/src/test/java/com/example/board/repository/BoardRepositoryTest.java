@@ -73,10 +73,11 @@ public class BoardRepositoryTest {
 
             long bno = (long) (Math.random() * 100) + 1;
             Board board = Board.builder().bno(bno).build();
+            Member member = Member.builder().name("guest" + i).build();
 
             Reply reply = Reply.builder()
                     .text("reply...." + i)
-                    .replyer("guest" + i)
+                    .replyer(member)
                     .board(board)
                     .build();
             replyRepository.save(reply);

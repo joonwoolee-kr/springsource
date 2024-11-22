@@ -34,16 +34,21 @@ const replyLoaded = () => {
 
       let result = "";
       data.forEach((reply) => {
-        result += `<div class="d-flex justify-content-between my-2 border-bottom reply-row" data-rno="${reply.rno}">`;
+        result += `<div class="d-flex justify-content-between my-2 border-bottom reply-row" data-rno="${reply.rno}" data-email="${reply.replyerEmail}">`;
         result += `<div class="p-3"><img src="/img/default.png" class="rounded-circle mx-auto d-block" style="width: 60px; height: 60px"/></div>`;
         result += `<div class="flex-grow-1 align-self-center">`;
-        result += `<span>${reply.replyer}</span>`;
+        result += `<span>${reply.replyerName}</span>`;
         result += `<div><span class="fs-5">${reply.text}</span></div><div class="text-muted">`;
         result += `<span class="small">${formatDateTime(reply.regDate)}</span>`;
         result += `</div></div>`;
-        result += `<div class="d-flex flex-column align-self-center"><div class="mb-2">`;
-        result += `<button class="btn btn-outline-danger btn-sm">삭제</button></div>`;
-        result += `<div><button class="btn btn-outline-success btn-sm">수정</button></div>`;
+        result += `<div class="d-flex flex-column align-self-center">`;
+        // 로그인 사용자 == 댓글 작성자
+        if (loginEmail == reply.replyerEmail) {
+          result += `<div class="mb-2">`;
+          result += `<button class="btn btn-outline-danger btn-sm">삭제</button></div>`;
+          result += `<div><button class="btn btn-outline-success btn-sm">수정</button></div>`;
+        }
+
         result += `</div></div>`;
       });
 
@@ -61,7 +66,7 @@ replyLoaded();
 const replyForm = document.querySelector("#replyForm");
 replyForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const replyer = replyForm.querySelector("#replyer");
+  const replyerEmail = replyForm.querySelector("#replyerEmail");
   const text = replyForm.querySelector("#text");
   // 댓글 수정 시 사용
   const rno = replyForm.querySelector("#rno");
@@ -69,7 +74,7 @@ replyForm.addEventListener("submit", (e) => {
   // 자바 스크립트 객체 생성
   const reply = {
     text: text.value,
-    replyer: replyer.value,
+    replyerEmail: replyerEmail.value,
     bno: bno,
     rno: rno.value,
   };
@@ -80,6 +85,7 @@ replyForm.addEventListener("submit", (e) => {
     fetch(`/replies/new`, {
       headers: {
         "content-type": "application/json",
+        "X-CSRF-TOKEN": csrfValue,
       },
       body: JSON.stringify(reply),
       method: "post",
@@ -94,7 +100,6 @@ replyForm.addEventListener("submit", (e) => {
         console.log(data);
         if (data) {
           // 댓글 폼에 남아있는 내용 제거하기
-          replyer.value = "";
           text.value = "";
           // data 번 댓글이 등록되었습니다.(alert)
           alert(data + " 번 댓글이 등록되었습니다.");
@@ -106,6 +111,7 @@ replyForm.addEventListener("submit", (e) => {
     fetch(`/replies/${rno.value}`, {
       headers: {
         "content-type": "application/json",
+        "X-CSRF-TOKEN": csrfValue,
       },
       body: JSON.stringify(reply),
       method: "put",
@@ -120,7 +126,6 @@ replyForm.addEventListener("submit", (e) => {
         console.log(data);
         if (data) {
           // 댓글 폼에 남아있는 내용 제거하기
-          replyer.value = "";
           text.value = "";
           rno.value = "";
           alert(data + " 번 댓글이 수정되었습니다.");
@@ -145,12 +150,18 @@ replyList.addEventListener("click", (e) => {
   // data-rno 값을 가져오기
   // 수정 버튼 클릭시 rno 가져오기
   const rno = btn.closest(".reply-row").dataset.rno;
+  const replyerEmail = btn.closest(".reply-row").dataset.email;
 
   // 수정 or 삭제가 눌러졌는지 구분
   // 클래스명 : classList
   if (btn.classList.contains("btn-outline-danger")) {
     // 댓글 삭제
     fetch(`/replies/${rno}`, {
+      headers: {
+        "content-type": "application/json",
+        "X-CSRF-TOKEN": csrfValue,
+      },
+      body: JSON.stringify({ replyerEmail: replyerEmail }),
       method: "delete",
     })
       .then((response) => response.text())
@@ -169,7 +180,8 @@ replyList.addEventListener("click", (e) => {
         console.log(data);
         // 해당 댓글을 replyForm 안에 보여주기
         replyForm.querySelector("#rno").value = data.rno;
-        replyForm.querySelector("#replyer").value = data.replyer;
+        replyForm.querySelector("#replyerEmail").value = data.replyerEmail;
+        replyForm.querySelector("#replyerName").value = data.replyerName;
         replyForm.querySelector("#text").value = data.text;
       });
   }

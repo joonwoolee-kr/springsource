@@ -17,5 +17,6 @@ document.querySelector(".btn-info").addEventListener("click", () => {
   actionForm.method = "get";
   // gno 삭제
   actionForm.querySelector("[name='bno']").remove();
+  actionForm.querySelector("[name='writerEmail']").remove();
   actionForm.submit();
 });
