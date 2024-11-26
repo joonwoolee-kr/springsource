@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input
+      type="file"
+      name="uploadFiles"
+      id=""
+      multiple
+      accept="image/png, image/jpeg"
+    />
+    <button id="uploadBtn">업로드</button>
+    <script>
+      document.querySelector("#uploadBtn").addEventListener("click", () => {
+        const uploadFiles = document.querySelector("[name='uploadFiles']");
+        const files = uploadFiles.files;
+        console.log(files);
+
+        // 스크립트에서 form 작성
+        let formData = new FormData();
+        for (let index = 0; index < files.length; index++) {
+          formData.append("uploadFiles", files[index]);
+        }
+        // for (const element of formData.keys()) {
+        //   console.log(element);
+        // }
+        // for (const element of formData.values()) {
+        //   console.log(element);
+        // }
+
+        // formData 서버로 전송(ajax)
+        fetch("/upload/upload", {
+          method: "post",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+          });
+      });
+    </script>
+  </body>
+</html>

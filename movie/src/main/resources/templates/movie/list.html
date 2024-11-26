@@ -42,7 +42,6 @@
               th:each="movie : ${result.dtoList}"
             >
               <td class="px-4 py-3 text-sm" th:text="${movie.mno}"></td>
-
               <td class="px-4 py-3">
                 <div class="flex items-center text-sm">
                   <!-- Avatar with inset shadow -->
@@ -61,12 +60,23 @@
                     ></div>
                   </div>
                   <div>
-                    <p class="font-semibold" th:text="${movie.title}"></p>
+                    <p class="font-semibold">
+                      <a
+                        th:href="@{read(mno=${movie.mno},page=${requestDto.page},size=${requestDto.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
+                        th:text="${movie.title}"
+                      ></a>
+                    </p>
                   </div>
                 </div>
               </td>
               <td class="px-4 py-3 text-xs" th:text="${movie.reviewCnt}"></td>
-              <td class="px-4 py-3 text-sm" th:text="${movie.reviewAvg}"></td>
+              <td class="px-4 py-3 text-sm">
+                <span
+                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
+                  th:text="${movie.reviewAvg}"
+                >
+                </span>
+              </td>
               <td
                 class="px-4 py-3 text-sm"
                 th:text="${#temporals.format(movie.regDate, 'yyyy/MM/dd')}"
@@ -84,8 +94,9 @@
         <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
           <nav aria-label="Table navigation">
             <ul class="inline-flex items-center">
-              <li>
-                <button
+              <li th:if="${result.prev}">
+                <a
+                  th:href="@{list(page=${result.start-1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
                   class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
                   aria-label="Previous"
                 >
@@ -100,55 +111,19 @@
                       fill-rule="evenodd"
                     ></path>
                   </svg>
-                </button>
+                </a>
               </li>
-              <li>
-                <button
+              <li th:each="page : ${result.pageList}">
+                <a
+                  th:href="@{list(page=${page},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
                   class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
+                  th:text="${page}"
                 >
-                  1
-                </button>
+                </a>
               </li>
-              <li>
-                <button
-                  class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
-                >
-                  2
-                </button>
-              </li>
-              <li>
-                <button
-                  class="px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple"
-                >
-                  3
-                </button>
-              </li>
-              <li>
-                <button
-                  class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
-                >
-                  4
-                </button>
-              </li>
-              <li>
-                <span class="px-3 py-1">...</span>
-              </li>
-              <li>
-                <button
-                  class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
-                >
-                  8
-                </button>
-              </li>
-              <li>
-                <button
-                  class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
-                >
-                  9
-                </button>
-              </li>
-              <li>
-                <button
+              <li th:if="${result.next}">
+                <a
+                  th:href="@{list(page=${result.end+1},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
                   class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
                   aria-label="Next"
                 >
@@ -163,7 +138,7 @@
                       fill-rule="evenodd"
                     ></path>
                   </svg>
-                </button>
+                </a>
               </li>
             </ul>
           </nav>

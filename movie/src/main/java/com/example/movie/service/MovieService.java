@@ -32,7 +32,7 @@ public interface MovieService {
                 .mno(movie.getMno())
                 .title(movie.getTitle())
                 // .movieImageDtos(movieImages)
-                .reviewAvg(reviewAvg)
+                .reviewAvg((reviewAvg != null ? reviewAvg : 0.0d))
                 .reviewCnt(reviewCnt)
                 .regDate(movie.getRegDate())
                 .build();

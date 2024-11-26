@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{/layouts/layout}">
+  <div class="container px-6 mx-auto grid" layout:fragment="content">
+    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+      Movie Modify
+    </h2>
+    <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+      <form th:action="@{modify}" method="post" id="modifyForm">
+        <input type="hidden" name="mno" th:value="${movieDto.mno}" />
+        <label class="block text-sm mt-4">
+          <span class="text-gray-700 dark:text-gray-400">제목</span>
+          <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            placeholder="제목"
+            th:value="${movieDto.title}"
+          />
+        </label>
+        <label class="block text-sm mt-4">
+          <span class="text-gray-700 dark:text-gray-400">리뷰수</span>
+          <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            placeholder="리뷰수"
+            th:value="${movieDto.reviewCnt}"
+          />
+        </label>
+        <label class="block text-sm mt-4">
+          <span class="text-gray-700 dark:text-gray-400">평점</span>
+          <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            placeholder="평점"
+            th:value="${movieDto.reviewAvg}"
+          />
+        </label>
+        <div class="mt-4">
+          <button
+            class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          >
+            수정
+          </button>
+          <button
+            th:href="@{list(page=${requestDto.page},size=${requestDto.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
+            class="px-4 py-2 text-sm font-medium leading-5 text-black transition-colors duration-150 bg-orange-100 border border-transparent rounded-lg active:bg-orange-100 hover:bg-orange-200 focus:outline-none focus:shadow-outline-orange"
+          >
+            목록
+          </button>
+          <button
+            class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red"
+          >
+            삭제
+          </button>
+        </div>
+      </form>
+      <!-- 영화 이미지 영역 -->
+      <div class="uploadResult mb-4">
+        <ul>
+          <li th:each="movieImage : ${movieDto.movieImageDtos}">
+            <img src="" alt="" class="block" />
+          </li>
+        </ul>
+      </div>
+      <!-- 리뷰 영역 -->
+      <!-- 리뷰 폼 -->
+    </div>
+  </div>
+  <th:block layout:fragment="js">
+    <script th:src="@{/js/modify.js}"></script>
+  </th:block>
+</html>

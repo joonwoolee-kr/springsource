@@ -84,7 +84,25 @@ public class MovieImageReviewRepositoryImpl extends QuerydslRepositorySupport im
 
     @Override
     public List<Object[]> getMovieRow(Long mno) {
-        return null;
+        QMovieImage movieImage = QMovieImage.movieImage;
+        QReview review = QReview.review;
+        QMovie movie = QMovie.movie;
+
+        JPQLQuery<MovieImage> query = from(movieImage)
+                .leftJoin(movie)
+                .on(movie.eq(movieImage.movie));
+        JPQLQuery<Long> rCnt = JPAExpressions.select(review.countDistinct())
+                .from(review)
+                .where(review.movie.eq(movieImage.movie));
+        JPQLQuery<Double> rAvg = JPAExpressions.select(review.grade.avg()
+                .round())
+                .from(review)
+                .where(review.movie.eq(movieImage.movie));
+        JPQLQuery<Tuple> tuple = query.select(movie, movieImage, rCnt, rAvg)
+                .where(movieImage.movie.mno.eq(mno))
+                .orderBy(movieImage.inum.desc());
+        List<Tuple> result = tuple.fetch();
+        return result.stream().map(t -> t.toArray()).collect(Collectors.toList());
     }
 
 }
