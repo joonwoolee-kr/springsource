@@ -43,13 +43,31 @@ public class MovieController {
     @PostMapping("/remove")
     public String postRemove(Long mno, @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
             RedirectAttributes rttr) {
-        log.info("영화 삭제 요청 {}", mno);
+        log.info("movie 삭제 요청 {}", mno);
         movieService.delete(mno);
         rttr.addAttribute("page", pageRequestDto.getPage());
         rttr.addAttribute("size", pageRequestDto.getSize());
         rttr.addAttribute("type", pageRequestDto.getType());
         rttr.addAttribute("keyword", pageRequestDto.getKeyword());
         return "redirect:/movie/list";
+    }
+
+    @GetMapping("/create")
+    public void getCreate(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+        log.info("movie create 폼 요청");
+    }
+
+    @PostMapping("/create")
+    public String postCreate(MovieDto movieDto, @ModelAttribute("requestDto") PageRequestDto pageRequestDto,
+            RedirectAttributes rttr) {
+        log.info("영화 등록 {}", movieDto);
+        Long mno = movieService.register(movieDto);
+        rttr.addAttribute("mno", mno);
+        rttr.addAttribute("page", pageRequestDto.getPage());
+        rttr.addAttribute("size", pageRequestDto.getSize());
+        rttr.addAttribute("type", pageRequestDto.getType());
+        rttr.addAttribute("keyword", pageRequestDto.getKeyword());
+        return "redirect:/movie/read";
     }
 
 }

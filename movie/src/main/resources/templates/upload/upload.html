@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+      integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <input
@@ -14,7 +21,56 @@
       accept="image/png, image/jpeg"
     />
     <button id="uploadBtn">업로드</button>
+    <div id="output"></div>
     <script>
+      // x를 누르면 삭제 요청 => 부모 이벤트
+      document.querySelector("#output").addEventListener("click", (e) => {
+        // a태그 기능 중지
+        e.preventDefault();
+        // x가 눌러진 태그 요소 찾기
+        console.log("e.target(실제 이벤트 대상) ", e.target);
+        console.log("e.currentTarget(이벤트 대상의 부모) ", e.currentTarget);
+        // href 값 가져오기
+        const element = e.target.closest("a");
+        console.log(element);
+        console.log(element.href);
+        console.log(element.getAttribute("href"));
+
+        // 이미지 삭제
+        const removeDiv = e.target.closest("div");
+
+        // 삭제할 이미지 경로 추출
+        const filePath = element.getAttribute("href");
+
+        let formData = new FormData();
+        formData.append("filePath", filePath);
+
+        fetch("/upload/remove", {
+          method: "post",
+          body: formData,
+        })
+          .then((response) => {
+            if (!response.ok) throw new Error("에러 발생");
+            return response.text();
+          })
+          .then((data) => {
+            // 화면 이미지 제거
+            if (data) removeDiv.remove();
+          });
+      });
+
+      function showUploadImages(files) {
+        const output = document.querySelector("#output");
+        let tags = "";
+        files.forEach((file) => {
+          tags += `<div>`;
+          tags += `<img src="/upload/display?fileName=${file.thumbImageURL}">`;
+          tags += `<a href="${file.imageURL}"><i class="fa-solid fa-xmark"></i></a>`;
+          tags += `</div>`;
+        });
+        output.insertAdjacentHTML("beforeend", tags);
+      }
+
       document.querySelector("#uploadBtn").addEventListener("click", () => {
         const uploadFiles = document.querySelector("[name='uploadFiles']");
         const files = uploadFiles.files;
@@ -40,6 +96,8 @@
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
+            // 첨부 파일 화면 출력
+            showUploadImages(data);
           });
       });
     </script>
