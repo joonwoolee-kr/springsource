@@ -99,12 +99,17 @@ public class UploadController {
     }
 
     @GetMapping("/display")
-    public ResponseEntity<byte[]> getFile(String fileName) {
+    public ResponseEntity<byte[]> getFile(String fileName, String size) {
         ResponseEntity<byte[]> result = null;
 
         try {
             String srcFileName = URLDecoder.decode(fileName, "utf-8");
             File file = new File(uploadPath, srcFileName);
+
+            if (size != null && size.equals("1")) {
+                file = new File(file.getParent(), file.getName().substring(2));
+            }
+
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Type", Files.probeContentType(file.toPath())); // Content 타입 추가(image/jpeg, text/html)
             result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);

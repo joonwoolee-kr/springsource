@@ -49,7 +49,8 @@ public class MovieServiceImpl implements MovieService {
     public PageResultDto<MovieDto, Object[]> getList(PageRequestDto pageRequestDto) {
         Pageable pageable = pageRequestDto.getPageable(Sort.by("mno").descending());
 
-        Page<Object[]> result = movieImageRepository.getTotalList(null, null, pageable);
+        Page<Object[]> result = movieImageRepository.getTotalList(pageRequestDto.getType(), pageRequestDto.getKeyword(),
+                pageable);
 
         Function<Object[], MovieDto> function = (en -> entityToDto((Movie) en[0],
                 (List<MovieImage>) Arrays.asList((MovieImage) en[1]), (Long) en[2], (Double) en[3]));
@@ -70,10 +71,19 @@ public class MovieServiceImpl implements MovieService {
         return entityToDto(movie, movieImages, movieCnt, movieAvg);
     }
 
+    @Transactional
     @Override
     public Long modify(MovieDto movieDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'modify'");
+        Map<String, Object> entityMap = dtoToEntity(movieDto);
+        Movie movie = (Movie) entityMap.get("movie");
+        List<MovieImage> movieImages = (List<MovieImage>) entityMap.get("movieImages");
+        movieRepository.save(movie);
+
+        // 기존의 영화 이미지 제거
+        movieImageRepository.deleteByMovie(movie);
+
+        movieImages.forEach(movieImage -> movieImageRepository.save(movieImage));
+        return movie.getMno();
     }
 
     @Transactional

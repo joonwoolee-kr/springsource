@@ -6,14 +6,20 @@
       Movie Create
     </h2>
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-      <form th:action="@{create}" method="post" id="createForm">
+      <form th:action="@{create}" method="post" id="createForm" th:object="${movieDto}">
         <label class="block text-sm mt-4">
           <span class="text-gray-700 dark:text-gray-400">Title</span>
           <input
             name="title"
             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
             placeholder="제목"
+            th:value="${movieDto.title}"
           />
+          <div
+            th:if="${#fields.hasErrors('title')}"
+            th:errors="*{title}"
+            class="text-danger"
+          ></div>
         </label>
         <label class="block text-sm mt-4">
           <span class="text-gray-700 dark:text-gray-400">Image Files</span>
@@ -58,5 +64,6 @@
   </div>
   <th:block layout:fragment="js">
     <script th:src="@{/js/upload.js}"></script>
+    <script th:src="@{/js/create.js}"></script>
   </th:block>
 </html>
