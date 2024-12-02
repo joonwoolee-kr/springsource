@@ -32,12 +32,12 @@ public class MovieRepositoryTest {
     @Test
     public void testMovieInsert() {
         IntStream.rangeClosed(1, 50).forEach(i -> {
-            Movie movie = Movie.builder()
-                    .title("Movie " + i)
-                    .build();
+            Movie movie = Movie.builder().title("Movie " + i).build();
             movieRepository.save(movie);
 
+            // 임의의 숫자 1~5
             int count = (int) (Math.random() * 5) + 1;
+
             for (int j = 0; j < count; j++) {
                 MovieImage movieImage = MovieImage.builder()
                         .uuid(UUID.randomUUID().toString())
@@ -56,24 +56,32 @@ public class MovieRepositoryTest {
 
         Page<Object[]> result = movieRepository.getListPage(pageRequest);
 
-        result.forEach(r -> System.out.println(Arrays.toString(r)));
+        for (Object[] objects : result) {
+            System.out.println(Arrays.toString(objects));
+        }
     }
 
-    // @Commit
     @Transactional
     @Test
     public void testRemove() {
+
         Movie movie = Movie.builder().mno(50L).build();
+
         movieImageRepository.deleteByMovie(movie);
+
         reviewRepository.deleteByMovie(movie);
+
         movieRepository.delete(movie);
     }
 
-    @Commit
-    @Transactional
+    // @Commit
+    // @Transactional
     @Test
     public void testRemove2() {
+
         Movie movie = movieRepository.findById(49L).get();
+
         movieRepository.delete(movie);
     }
+
 }

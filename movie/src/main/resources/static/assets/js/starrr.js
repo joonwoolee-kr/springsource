@@ -25,9 +25,7 @@ var slice = [].slice;
         "a",
         (function (_this) {
           return function (e) {
-            return _this.syncRating(
-              _this.getStars().index(e.currentTarget) + 1
-            );
+            return _this.syncRating(_this.getStars().index(e.currentTarget) + 1);
           };
         })(this)
       );
@@ -59,11 +57,7 @@ var slice = [].slice;
     Starrr.prototype.createStars = function () {
       var j, ref, results;
       results = [];
-      for (
-        j = 1, ref = this.options.max;
-        1 <= ref ? j <= ref : j >= ref;
-        1 <= ref ? j++ : j--
-      ) {
+      for (j = 1, ref = this.options.max; 1 <= ref ? j <= ref : j >= ref; 1 <= ref ? j++ : j--) {
         results.push(this.$el.append("<a href='#' />"));
       }
       return results;
@@ -95,12 +89,8 @@ var slice = [].slice;
         results.push(
           $stars
             .eq(i - 1)
-            .removeClass(
-              rating >= i ? this.options.emptyClass : this.options.fullClass
-            )
-            .addClass(
-              rating >= i ? this.options.fullClass : this.options.emptyClass
-            )
+            .removeClass(rating >= i ? this.options.emptyClass : this.options.fullClass)
+            .addClass(rating >= i ? this.options.fullClass : this.options.emptyClass)
         );
       }
       return results;
@@ -111,8 +101,7 @@ var slice = [].slice;
   return $.fn.extend({
     starrr: function () {
       var args, option;
-      (option = arguments[0]),
-        (args = 2 <= arguments.length ? slice.call(arguments, 1) : []);
+      (option = arguments[0]), (args = 2 <= arguments.length ? slice.call(arguments, 1) : []);
       return this.each(function () {
         var data;
         data = $(this).data("starrr");

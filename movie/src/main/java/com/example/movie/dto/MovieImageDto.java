@@ -15,13 +15,19 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class MovieImageDto {
+
     private Long inum;
+
     private String uuid;
+
     private String imgName;
+
     private String path;
+
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
 
+    // 썸네일 경로
     public String getThumbImageURL() {
         String fullPath = "";
         try {
@@ -32,6 +38,7 @@ public class MovieImageDto {
         return fullPath;
     }
 
+    // 원본 이미지 경로
     public String getImageURL() {
         String fullPath = "";
         try {

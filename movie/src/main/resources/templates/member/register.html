@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{/layouts/layout}">
-  <th:block layout:fragment="css"><link rel="stylesheet" th:href="@{/css/upload.css}"></th:block>
-  <div
-    class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900"
-    layout:fragment="content"
-    style="min-height: 80vh"
-  >
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/upload.css}">
+  </th:block>
+  <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900" layout:fragment="content" style="min-height:80vh">
     <div
       class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800"
     >
@@ -78,7 +76,7 @@
               Create account
             </a>
 
-            <hr class="my-8" />
+            <hr class="my-8" />          
 
             <p class="mt-4">
               <a

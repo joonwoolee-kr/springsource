@@ -15,22 +15,22 @@ public class MemberRepositoryTest {
 
     @Autowired
     private MemberRepository memberRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Test
     public void testInsert() {
+
         IntStream.rangeClosed(1, 50).forEach(i -> {
             Member member = Member.builder()
-                    .email("user" + i + "@gmail.com")
+                    .email("user" + i + "@naver.com")
                     .password(passwordEncoder.encode("1111"))
                     .nickname("nickname" + i)
                     .role(MemberRole.MEMBER)
                     .build();
+
             memberRepository.save(member);
         });
-
     }
 
 }

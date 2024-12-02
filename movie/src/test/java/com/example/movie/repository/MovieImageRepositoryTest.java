@@ -26,12 +26,15 @@ public class MovieImageRepositoryTest {
 
         Page<Object[]> result = movieImageRepository.getTotalList(null, null, pageRequest);
 
+        // [Movie(mno=50, title=Movie 50), MovieImage(inum=152,
+        // uuid=683e6244-299a-4576-8598-3e3f0ac87e50, imgName=test4.jpg, path=null), 7,
+        // 3.0]
         for (Object[] objects : result) {
             // System.out.println(Arrays.toString(objects));
             Movie movie = (Movie) objects[0];
             MovieImage movieImage = (MovieImage) objects[1];
-            Long count = (long) objects[2];
-            Double avg = (double) objects[3];
+            Long count = (Long) objects[2];
+            Double avg = (Double) objects[3];
 
             System.out.println(movie);
             System.out.println(movieImage);
@@ -42,9 +45,11 @@ public class MovieImageRepositoryTest {
 
     @Test
     public void testRow() {
-        List<Object[]> result = movieImageRepository.getMovieRow(2L);
+        List<Object[]> result = movieImageRepository.getMovieRow(1L);
+
         for (Object[] objects : result) {
             System.out.println(Arrays.toString(objects));
         }
     }
+
 }

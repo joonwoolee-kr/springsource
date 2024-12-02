@@ -24,13 +24,10 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
     />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
-      defer
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
     <script th:src="@{/assets/js/charts-lines.js}" defer></script>
     <script th:src="@{/assets/js/charts-pie.js}" defer></script>
-    <!-- font awesome -->
+    <!-- font-awesome  -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
@@ -48,21 +45,24 @@
     >
       <!-- Desktop sidebar -->
       <div th:replace="~{/fragments/sidebar::sidebar}"></div>
+
       <div class="flex flex-col flex-1 w-full">
         <!-- header -->
         <div th:replace="~{/fragments/header::header}"></div>
-        <!-- main content -->
-        <div layout:fragment="content"></div>
+        <main class="h-full overflow-y-auto">
+          <!-- content -->
+          <div layout:fragment="content"></div>
+        </main>
       </div>
     </div>
-    <!-- 검색 시 이동할 폼 -->
+    <!-- 검색 시 이동할 폼-->
     <form th:action="@{/movie/list}" method="get" id="searchForm">
       <input type="hidden" name="page" th:value="${requestDto.page}" />
       <input type="hidden" name="size" th:value="${requestDto.size}" />
       <input type="hidden" name="type" th:value="t" />
       <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
     </form>
-    <!-- 모달 창 -->
+    <!-- 모달창 -->
     <div
       class="modal fade"
       id="imgModal"
@@ -85,13 +85,7 @@
             <img src="" alt="" />
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.movie.dto.PageRequestDto;
 
-@RequiredArgsConstructor
 @Log4j2
+@RequiredArgsConstructor
 @RequestMapping("/member")
 @Controller
 public class MemberController {
 
     @GetMapping("/login")
-    public void getLogin(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
+    public void getMethodName(@ModelAttribute("requestDto") PageRequestDto pageRequestDto) {
         log.info("로그인 폼 요청");
     }
 

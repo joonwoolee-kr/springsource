@@ -22,25 +22,36 @@ public class ReviewRepositoryTest {
     @Autowired
     private MovieRepository movieRepository;
 
+    // 200개
+
     @Test
     public void testInsert() {
+
         IntStream.rangeClosed(1, 200).forEach(i -> {
-            Long mid = (long) (Math.random() * 50) + 1;
+
+            // 영화번호 임의 추출
             Long mno = (long) (Math.random() * 50) + 1;
+            Movie movie = Movie.builder().mno(mno).build();
+
+            // 리뷰 멤버 임의 추출
+            Long mid = (long) (Math.random() * 50) + 1;
+            Member member = Member.builder().mid(mid).build();
+
             Review review = Review.builder()
                     .grade((int) (Math.random() * 5) + 1)
-                    .text("review text" + i)
-                    .member(Member.builder().mid(mid).build())
-                    .movie(Movie.builder().mno(mno).build())
+                    .text("이 영화에 대한 감상평은.." + i)
+                    .movie(movie)
+                    .member(member)
                     .build();
             reviewRepository.save(review);
+
         });
     }
 
     // @Transactional
     @Test
     public void testGet() {
-        Movie movie = movieRepository.findById(48L).get();
+        Movie movie = movieRepository.findById(45L).get();
         List<Review> list = reviewRepository.findByMovie(movie);
         // System.out.println(list);
         list.forEach(review -> {

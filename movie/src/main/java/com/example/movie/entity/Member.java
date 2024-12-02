@@ -19,15 +19,16 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "M_Member")
 public class Member extends BaseEntity {
 
+    // mid(seq), email, password, nickname, role
     @Id
     @SequenceGenerator(name = "movie_member_seq_gen", sequenceName = "movie_member_seq", allocationSize = 1, initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_member_seq_gen")
@@ -35,10 +36,8 @@ public class Member extends BaseEntity {
 
     @Column(unique = true, nullable = false)
     private String email;
-
     @Column(nullable = false)
     private String password;
-
     private String nickname;
 
     @Enumerated(EnumType.STRING)

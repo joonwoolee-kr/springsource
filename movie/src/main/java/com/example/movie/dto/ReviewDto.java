@@ -12,17 +12,20 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class ReviewDto {
+
     private Long reviewNo;
+
     private int grade;
+
     private String text;
 
     // Movie의 mno 담기
     private Long mno;
 
-    // Member mid, nickname, email 담기
+    // Member mid,nickname,email
     private Long mid;
-    private String nickname;
     private String email;
+    private String nickname;
 
     private LocalDateTime regDate;
     private LocalDateTime updateDate;

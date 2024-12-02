@@ -12,9 +12,11 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Service
 public class MemberDetailsServiceImpl implements UserDetailsService {
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("username: {}", username);
+        log.info("service username : {}", username);
+
         return null;
     }
 

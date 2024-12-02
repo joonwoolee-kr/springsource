@@ -21,4 +21,5 @@
 
 .uploadResult ul li img {
   width: 100px;
+  cursor: pointer;
 }

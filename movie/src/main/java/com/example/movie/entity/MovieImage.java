@@ -15,14 +15,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString(exclude = "movie")
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class MovieImage extends BaseEntity {
-
+    // inum(seq), uuid(문자), imgName(문자),path(문자)
     @Id
     @SequenceGenerator(name = "movie_image_seq_gen", sequenceName = "movie_image_seq", allocationSize = 1, initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_image_seq_gen")

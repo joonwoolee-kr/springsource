@@ -31,5 +31,4 @@ public class MovieServiceTest {
         PageResultDto<MovieDto, Object[]> result = movieService.getList(requestDto);
         System.out.println(result.getDtoList());
     }
-
 }

@@ -8,47 +8,43 @@ import com.example.movie.entity.Movie;
 import com.example.movie.entity.Review;
 
 public interface ReviewService {
-        // movie 번호를 이용해 특정 영화의 모든 리뷰 조회
-        List<ReviewDto> getReviews(Long mno);
 
-        // 특정 리뷰 조회
-        ReviewDto getReview(Long reviewNo);
+    // movie 번호를 이용해 특정 영화의 모든 리뷰 조회
+    List<ReviewDto> getReviews(Long mno);
 
-        Long addReview(ReviewDto reviewDto);
+    // 특정 리뷰 조회
+    ReviewDto getReview(Long reviewNo);
 
-        Long modifyReview(ReviewDto reviewDto);
+    Long addReview(ReviewDto reviewDto);
 
-        void removeReview(Long reviewNo);
+    Long modifyReview(ReviewDto reviewDto);
 
-        default ReviewDto entityToDto(Review review) {
-                return ReviewDto.builder()
-                                .reviewNo(review.getReviewNo())
-                                .grade(review.getGrade())
-                                .text(review.getText())
-                                .mno(review.getReviewNo())
-                                .mid(review.getMember().getMid())
-                                .nickname(review.getMember().getNickname())
-                                .email(review.getMember().getEmail())
-                                .regDate(review.getRegDate())
-                                .updateDate(review.getUpdateDate())
-                                .build();
-        }
+    void removeReview(Long reviewNo);
 
-        default Review dtoToEntity(ReviewDto reviewDto) {
-                Member member = Member.builder()
-                                .mid(reviewDto.getMid())
-                                .build();
+    default ReviewDto entityToDto(Review review) {
+        ReviewDto reviewDto = ReviewDto
+                .builder()
+                .reviewNo(review.getReviewNo())
+                .grade(review.getGrade())
+                .text(review.getText())
+                .mno(review.getMovie().getMno())
+                .mid(review.getMember().getMid())
+                .email(review.getMember().getEmail())
+                .nickname(review.getMember().getNickname())
+                .regDate(review.getRegDate())
+                .updateDate(review.getUpdateDate())
+                .build();
 
-                Movie movie = Movie.builder()
-                                .mno(reviewDto.getMno())
-                                .build();
+        return reviewDto;
+    }
 
-                return Review.builder()
-                                .reviewNo(reviewDto.getReviewNo())
-                                .grade(reviewDto.getGrade())
-                                .text(reviewDto.getText())
-                                .member(member)
-                                .movie(movie)
-                                .build();
-        }
+    default Review dtoToEntity(ReviewDto reviewDto) {
+        return Review.builder()
+                .reviewNo(reviewDto.getReviewNo())
+                .grade(reviewDto.getGrade())
+                .text(reviewDto.getText())
+                .member(Member.builder().mid(reviewDto.getMid()).build())
+                .movie(Movie.builder().mno(reviewDto.getMno()).build())
+                .build();
+    }
 }

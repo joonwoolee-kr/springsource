@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.example.movie.dto.MovieDto;
@@ -14,32 +15,35 @@ import com.example.movie.entity.Movie;
 import com.example.movie.entity.MovieImage;
 
 public interface MovieService {
-    // Create
-    Long register(MovieDto movieDto);
 
-    // R(전체조회, 페이지나누기 + 검색)
+    // 영화목록(페이지 나누기 + 검색)
     PageResultDto<MovieDto, Object[]> getList(PageRequestDto pageRequestDto);
 
-    // R(상세조회)
-    MovieDto get(Long mno);
+    // 영화등록
+    Long register(MovieDto movieDto);
 
-    // U
+    // 영화수정
     Long modify(MovieDto movieDto);
 
-    // D
+    // 영화삭제
     void delete(Long mno);
 
+    // 영화상세조회
+    MovieDto get(Long mno);
+
     default MovieDto entityToDto(Movie movie, List<MovieImage> movieImages, Long reviewCnt, Double reviewAvg) {
+
+        // movie => movieDto
         MovieDto movieDto = MovieDto.builder()
                 .mno(movie.getMno())
                 .title(movie.getTitle())
                 // .movieImageDtos(movieImages)
-                .reviewAvg((reviewAvg != null ? reviewAvg : 0.0d))
                 .reviewCnt(reviewCnt)
+                .reviewAvg(reviewAvg != null ? reviewAvg : 0.0d)
                 .regDate(movie.getRegDate())
                 .build();
 
-        // MovieImage => MovieImageDto
+        // MovieImage => MovieImageDto 변경 후 리스트 작업
         List<MovieImageDto> movieImageDtos = movieImages.stream().map(movieImage -> {
             return MovieImageDto.builder()
                     .inum(movieImage.getInum())
@@ -47,7 +51,6 @@ public interface MovieService {
                     .imgName(movieImage.getImgName())
                     .path(movieImage.getPath())
                     .build();
-
         }).collect(Collectors.toList());
 
         movieDto.setMovieImageDtos(movieImageDtos);
@@ -56,6 +59,7 @@ public interface MovieService {
     }
 
     default Map<String, Object> dtoToEntity(MovieDto movieDto) {
+
         Map<String, Object> resultMap = new HashMap<>();
 
         Movie movie = Movie.builder()
@@ -63,11 +67,12 @@ public interface MovieService {
                 .title(movieDto.getTitle())
                 .build();
         resultMap.put("movie", movie);
+
         List<MovieImageDto> movieImageDtos = movieDto.getMovieImageDtos();
         // MovieImageDto => MovieImage 변경 후 MovieImage List 형태로 작성
         // List<MovieImage> movieImages = new ArrayList<>();
-        // movieImageDtos.forEach(dto -> {
         // if (movieImageDtos != null && movieImageDtos.size() > 0) {
+        // movieImageDtos.forEach(dto -> {
         // MovieImage movieImage = MovieImage.builder()
         // .uuid(dto.getUuid())
         // .imgName(dto.getImgName())
@@ -75,8 +80,9 @@ public interface MovieService {
         // .movie(movie)
         // .build();
         // movieImages.add(movieImage);
-        // }
         // });
+        // }
+
         if (movieImageDtos != null && movieImageDtos.size() > 0) {
             List<MovieImage> movieImages = movieImageDtos.stream().map(dto -> {
                 MovieImage movieImage = MovieImage.builder()
@@ -87,9 +93,10 @@ public interface MovieService {
                         .build();
                 return movieImage;
             }).collect(Collectors.toList());
+
             resultMap.put("movieImages", movieImages);
         }
-
         return resultMap;
     }
+
 }
