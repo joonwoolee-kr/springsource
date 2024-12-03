@@ -16,13 +16,13 @@
           <img
             aria-hidden="true"
             class="object-cover w-full h-full dark:hidden"
-            th:src="@{/assets/img/create-account-office.jpeg}"
+            th:src="@{/assets/img/forgot-password-office.jpeg}"
             alt="Office"
           />
           <img
             aria-hidden="true"
             class="hidden object-cover w-full h-full dark:block"
-            th:src="@{/assets/img/create-account-office-dark.jpeg}"
+            th:src="@{/assets/img/forgot-password-office-dark.jpeg}"
             alt="Office"
           />
         </div>
@@ -31,75 +31,46 @@
             <h1
               class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200"
             >
-              Create account
+              회원탈퇴
             </h1>
-            <form th:action="@{/member/register}" method="post" th:object="${memberDto}">
+            <form th:action="@{/member/leave}" method="post">
               <label class="block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Email</span>
                 <input
                   class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  placeholder="Jane Doe"
                   name="email"
+                  readonly
+                  th:value="${#authentication.name}"
                 />
-                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
               </label>
-              <label class="block mt-4 text-sm">
+              <label class="block text-sm mt-2">
                 <span class="text-gray-700 dark:text-gray-400">Password</span>
                 <input
-                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  placeholder="***************"
                   type="password"
-                  name="password"
-                />
-                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></div>
-
-              </label>
-              <label class="block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400"> Nickname </span>
-                <input
                   class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  placeholder="Nickname"
-                  type="text"
-                  name="nickname"
-                  th:value="${memberDto.nickname}"
-                  />
-                <div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="text-danger"></div>
-
+                  name="currentPassword"
+                />
               </label>
-
-              <div class="flex mt-6 text-sm">
-                <label class="flex items-center dark:text-gray-400">
-                  <input
-                    type="checkbox"
-                    name="check"
-                    class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                  />
-                  <span class="ml-2">
-                    I agree to the
-                    <span class="underline">privacy policy</span>
-                  </span>
-                </label>
-              </div>
 
               <!-- You should use a button here, as the anchor is only used for the example  -->
+              <p class="text-danger small">
+                회원탈퇴 시 작성한 리뷰 및 회원정보는 복구할 수 없습니다.
+              </p>
+              <input
+              type="checkbox"
+              name="check"
+              value="true"
+              class="form-check-input"
+              />
+              <label for="" class="small">안내 사항을 모두 확인하였으며, 이에 동의합니다.</label>
               <button
                 type="submit"
                 class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
               >
-                Create account
+                회원탈퇴
               </button>
             </form>
-
-            <hr class="my-8" />
-
-            <p class="mt-4">
-              <a
-                class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
-                th:href="@{/member/login}"
-              >
-                Already have an account? Login
-              </a>
-            </p>
+            <span th:if="${error}" th:text="${error}" class="text-danger small"></span>
           </div>
         </div>
       </div>

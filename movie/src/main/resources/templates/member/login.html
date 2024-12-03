@@ -54,6 +54,7 @@
             >
               Log in
             </button>
+            <div th:if="${param.error}" class="text-danger small">이메일이나 비밀번호를 확인해 주세요</div>
           </form>
 
             <hr class="my-8" />           
@@ -69,7 +70,7 @@
             <p class="mt-1">
               <a
                 class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
-                href="./create-account.html"
+                th:href="@{/member/register}"
               >
                 Create account
               </a>
