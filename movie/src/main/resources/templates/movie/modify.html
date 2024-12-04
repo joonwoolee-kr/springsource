@@ -47,7 +47,8 @@
         <div class="mt-4">
           <button
             class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-          >
+            sec:authorize="hasRole('ADMIN')"
+            >
             수정
           </button>
           <button
@@ -59,7 +60,8 @@
           <button
             type="button"
             class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red"
-          >
+            sec:authorize="hasRole('ADMIN')"
+            >
             삭제
           </button>
         </div>
@@ -91,7 +93,7 @@
 
       <!-- 리뷰 폼 -->
     </div>
-  <form action="" method="post" id="actionForm">
+  <form th:action="@{/movie/remove}" method="post" id="actionForm">
     <input type="hidden" name="mno" th:value="${movieDto.mno}">
     <input type="hidden" name="page" th:value="${requestDto.page}">
     <input type="hidden" name="size" th:value="${requestDto.size}">
@@ -103,6 +105,7 @@
     <script>
       // 영화명 
       const title = '[[${movieDto.title}]]';      
+      const csrfValue = "[[${_csrf.token}]]";
     </script>
     <script th:src="@{/js/modify.js}"></script>
     <script th:src="@{/js/read.js}"></script>

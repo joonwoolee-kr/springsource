@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.example.movie.handler.CustomAccessDeniedHandler;
+
 @EnableMethodSecurity
 @EnableWebSecurity
 @Configuration
@@ -21,6 +23,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/", "/assets/**", "/css/**", "/js/**", "/upload/**").permitAll()
                 .requestMatchers("/movie/list", "/member/register").permitAll()
+                .requestMatchers("/movie/modify").hasRole("ADMIN")
                 .anyRequest().authenticated());
         http.formLogin(login -> login
                 .loginPage("/member/login").permitAll()
@@ -33,7 +36,18 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/"));
         // http.csrf(csrf -> csrf.disable());
 
+        // 403 정적 페이지로 처리 시
+        // http.exceptionHandling(exception ->
+        // exception.accessDeniedPage("/accessdenied.html"));
+        // 403 핸들러로 처리 시
+        http.exceptionHandling(exception -> exception.accessDeniedHandler(customAccessDeniedHandler()));
+
         return http.build();
+    }
+
+    @Bean
+    CustomAccessDeniedHandler customAccessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
     }
 
     @Bean

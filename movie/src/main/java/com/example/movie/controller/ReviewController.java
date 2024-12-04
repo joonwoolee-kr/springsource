@@ -2,6 +2,7 @@ package com.example.movie.controller;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -39,8 +40,9 @@ public class ReviewController {
     }
 
     // ~~~/reviews/mno/reviewno + @DeleteMapping
+    @PreAuthorize("authentication.name == #email")
     @DeleteMapping("/{mno}/{reviewNo}")
-    public Long deteteReview(@PathVariable Long reviewNo) {
+    public Long deteteReview(@PathVariable Long reviewNo, String email) {
         log.info("리뷰 삭제 {}", reviewNo);
 
         reviewService.removeReview(reviewNo);
@@ -57,6 +59,7 @@ public class ReviewController {
     }
 
     // ~~/reviews/mno/reviewno + @PutMapping + ReviewDto
+    @PreAuthorize("authentication.name == #reviewDto.email")
     @PutMapping("/{mno}/{reviewNo}")
     public Long putReview(@PathVariable Long reviewNo, @RequestBody ReviewDto reviewDto) {
         log.info("리뷰 수정 {}, {}", reviewNo, reviewDto);

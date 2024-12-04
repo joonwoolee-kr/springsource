@@ -28,6 +28,9 @@ fileInput.addEventListener("change", (e) => {
 
   fetch("/upload/upload", {
     method: "post",
+    headers: {
+      "X-CSRF-TOKEN": csrfValue,
+    },
     body: formData,
   })
     .then((response) => response.json())

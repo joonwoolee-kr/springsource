@@ -65,6 +65,9 @@
     </div>
   </div>
   <th:block layout:fragment="js">
+    <script>
+      const csrfValue = "[[${_csrf.token}]]";
+    </script>
     <script th:src="@{/js/upload.js}"></script>
     <script th:src="@{/js/create.js}"></script>
   </th:block>

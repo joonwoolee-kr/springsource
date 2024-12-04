@@ -1,5 +1,6 @@
 package com.example.movie.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -84,6 +85,7 @@ public class MovieController {
         log.info("영화 작성 폼 요청");
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public String postCreate(@Valid MovieDto movieDto, BindingResult result,
             @ModelAttribute("requestDto") PageRequestDto pageRequestDto,

@@ -20,10 +20,10 @@ import lombok.Setter;
 public abstract class BaseEntity {
 
     @CreatedDate
-    @Column(updatable = false, name = "regdate")
+    @Column(updatable = false, name = "regDate")
     private LocalDateTime regDate; // 최초 생성 시간
 
     @LastModifiedDate
-    @Column(name = "updatedate") // update_date
+    @Column(name = "updateDate") // update_date
     private LocalDateTime updateDate; // 최종 수정 시간
 }

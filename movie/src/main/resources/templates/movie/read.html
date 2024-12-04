@@ -40,6 +40,7 @@
           <a
             th:href="@{modify(mno=${movieDto.mno},page=${requestDto.page},size=${requestDto.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
             class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+            sec:authorize="hasRole('ADMIN')"
           >
             수정
           </a>
@@ -83,15 +84,18 @@
       </div>
 
       <!-- 리뷰 폼 -->    
-      <form action="" method="post" id="reviewForm">
+      <form action="" method="post" id="reviewForm" sec:authorize="hasAnyRole('ADMIN', 'MEMBER')">
         <input type="hidden" name="reviewNo" value="">
-        <input type="hidden" name="email" value="">
+        <input type="hidden" name="email" th:value="${#authentication.name}">
+        <input type="hidden" name="mid" th:value="${#authentication.principal.memberDto.mid}">
         <label class="block text-sm mt-2">
           <span class="text-gray-700 dark:text-gray-400">작성자</span>
           <input
             name = "nickname"
             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-            placeholder="작성자"          
+            placeholder="작성자"
+            th:value="${#authentication.principal.memberDto.nickname}"
+            readonly
           />
         </label>
         <label class="block text-sm mt-2">
@@ -144,6 +148,10 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script th:src="@{/assets/js/starrr.js}"></script>
     <script>
+      const csrfValue = "[[${_csrf.token}]]";
+      // 로그인 사용자 정보 가져오기
+      const loginUser = '[[${#authentication.name}]]';
+
       // 영화명 
       const title = '[[${movieDto.title}]]';
       const mno = '[[${movieDto.mno}]]';
