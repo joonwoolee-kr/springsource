@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mybatis.mapper.BookMapper">
+  <select id="read" resultType="com.example.mybatis.dto.BookDto">
+    select * from booktbl b where b.book_id = #{id}
+  </select>
+  <select id="listAll" resultType="com.example.mybatis.dto.BookDto">
+    <![CDATA[
+    SELECT t.CATEGORY_ID,t.CATEGORY_NAME,t.BOOK_ID AS ID,t.TITLE,t.WRITER,t.PUBLISHER_ID,t.PUBLISHER_NAME 
+    FROM
+	(
+	SELECT
+		rownum rn,
+		b1.*
+	FROM
+		(
+		SELECT
+			*
+		FROM
+			BOOKTBL b
+		JOIN PUBLISHER p ON
+			b.PUBLISHER_PUBLISHER_ID = p.PUBLISHER_ID
+		JOIN CATEGORY c ON
+			b.CATEGORY_CATEGORY_ID = c.CATEGORY_ID
+		WHERE
+			b.BOOK_ID > 0
+		ORDER BY
+			b.BOOK_ID DESC) b1
+	WHERE
+    ]]> 
+    <include refid="criteria"></include>
+    <![CDATA[
+        rownum <= (#{page} * #{size})) t
+        WHERE rn > (#{page} - 1) * #{size}
+    ]]>
+  </select>
+  <select id="totalCnt" resultType="int">
+    select count(*) from booktbl where <include refid="criteria"></include> book_id > 0
+  </select>
+
+  <sql id="criteria">
+    <trim prefix="(" suffix=") AND" prefixOverrides="OR">
+    <trim prefix="OR">
+        <choose>
+            <when test="type == 't'.toString()">
+                title like '%'||#{keyword}||'%'
+            </when>
+            <when test="type == 'c'.toString()">
+                category_name like '%'||#{keyword}||'%'
+            </when>
+            <otherwise>
+                writer like '%'||#{keyword}||'%'
+            </otherwise>
+        </choose>
+    </trim>
+    </trim>
+  </sql>
+</mapper>

@@ -1,6 +1,8 @@
 package com.example.movie.task;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -32,7 +34,7 @@ public class FileCheckTask {
         return result.replace("/", File.separator);
     }
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0 2 * * *")
     public void checkFile() {
         log.info("file check 메소드 실행");
 
@@ -48,8 +50,22 @@ public class FileCheckTask {
                     .build();
         }).collect(Collectors.toList());
 
+        List<Path> filePaths = movieImageDtos.stream()
+                .map(dto -> Paths.get(uploadPath, dto.getImageURL(), dto.getUuid() + "_" + dto.getImgName()))
+                .collect(Collectors.toList());
+
+        movieImageDtos.stream()
+                .map(dto -> Paths.get(uploadPath, dto.getImageURL(), "s_" + dto.getUuid() + "_" + dto.getImgName()))
+                .forEach(p -> filePaths.add(p));
+
         // 전일자 파일 목록 추출
+        File targetDir = Paths.get(uploadPath, getYesterdayFolder()).toFile();
+        File[] removeFiles = targetDir.listFiles(f -> filePaths.contains(f.toPath()) == false);
 
         // 비교 후 db와 일치하지 않는 파일 제거
+        for (File file : removeFiles) {
+            log.info("remove file {}", file.getAbsolutePath());
+            file.delete();
+        }
     }
 }

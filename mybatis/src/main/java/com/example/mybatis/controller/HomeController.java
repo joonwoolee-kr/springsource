@@ -1,4 +1,4 @@
-package com.example.testproject1.controller;
+package com.example.mybatis.controller;
 
 import org.springframework.stereotype.Controller;
 
@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Log4j2
 @Controller
 public class HomeController {
+
     @GetMapping("/")
     public String getHome() {
-        return "redirect:/movie/list";
+        return "index";
     }
 
 }

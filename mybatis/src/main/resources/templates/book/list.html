@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{/layouts/layout}">
+  <th:block layout:fragment="css">
+    <style>
+      /* css 작성 */
+    </style>
+  </th:block>
+  <div layout:fragment="content" class="container">
+    <h1>도서 전체 목록</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">분류</th>
+          <th scope="col">제목</th>
+          <th scope="col">저자</th>
+          <th scope="col">출판사</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- <tr th:each="dto : ${result.dtoList}">
+          <th scope="row" th:text="${dto.id}"></th>
+          <td th:text="${dto.categoryName}"></td>
+          <td>
+            <a
+              th:href="@{read(id=${dto.id}, page=${requestDto.page},size=${requestDto.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
+              class="text-decoration-none"
+              th:text="${dto.title}"
+            ></a>
+          </td>
+          <td th:text="${dto.writer}"></td>
+          <td th:text="${dto.publisherName}"></td>
+        </tr> -->
+      </tbody>
+    </table>
+    <nav aria-label="...">
+      <ul class="pagination justify-content-center">
+        <!-- <li class="page-item" th:if="${result.prev}">
+          <a
+            class="page-link"
+            th:href="@{list(page=${result.start-1},size=${result.size})}"
+            >Previous</a
+          >
+        </li>
+        <li
+          th:class="'page-item ' + ${result.page == page ? 'active':''}"
+          aria-current="page"
+          th:each="page : ${result.pageList}"
+        >
+          <a
+            class="page-link"
+            th:href="@{list(page=${page},size=${result.size},type=${requestDto.type},keyword=${requestDto.keyword})}"
+            th:text="${page}"
+          ></a>
+        </li>
+        <li class="page-item" th:if="${result.next}">
+          <a
+            class="page-link"
+            th:href="@{list(page=${result.end+1},size=${result.size})}"
+            >Next</a
+          >
+        </li> -->
+      </ul>
+    </nav>
+  </div>
+  <th:block layout:fragment="script">
+    <script>
+      // 스크립트 작성
+      const msg = "[[${msg}]]";
+      if (msg) {
+        alert(msg);
+      }
+    </script>
+  </th:block>
+</html>
