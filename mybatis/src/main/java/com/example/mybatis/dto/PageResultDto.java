@@ -11,7 +11,10 @@ import lombok.Data;
 // Entity => Dto: result.getContent() => List<BookDto> 변경
 
 @Data
-public class PageResultDto {
+public class PageResultDto<DTO> {
+
+    // 화면에 보여줄 DTO 리스트
+    private List<DTO> dtoList;
 
     // 총 개수
     private int total;
@@ -29,8 +32,9 @@ public class PageResultDto {
     // 화면에 보여줄 페이지 번호 목록
     private List<Integer> pageList;
 
-    public PageResultDto(PageRequestDto requestDto, int total) {
+    public PageResultDto(PageRequestDto requestDto, int total, List<DTO> dtoList) {
         this.total = total;
+        this.dtoList = dtoList;
 
         int tempEnd = (int) (Math.ceil(requestDto.getPage() / 10.0)) * requestDto.getSize();
         totalPage = (int) (Math.ceil((total / 1.0) / requestDto.getSize()));

@@ -24,15 +24,13 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper; // repository 역할
 
     @Override
-    public Long create(BookDto dto) {
-        // return bookRepository.save(dtoToEntity(dto)).getId();
-        return null;
+    public boolean create(BookDto dto) {
+        return bookMapper.create(dto) == 1 ? true : false;
     }
 
     @Override
     public BookDto getRow(Long id) {
-        // return entityToDto(bookRepository.findById(id).get());
-        return null;
+        return bookMapper.read(id);
     }
 
     @Override
@@ -41,33 +39,23 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Long update(BookDto dto) {
-        // Book book = bookRepository.findById(dto.getId()).get();
-        // book.setPrice(dto.getPrice());
-        // book.setSale_price(dto.getSalePrice());
-        // return bookRepository.save(book).getId();
-        return null;
+    public boolean update(BookDto dto) {
+        return bookMapper.update(dto) == 1 ? true : false;
     }
 
     @Override
-    public void delete(Long id) {
-        // bookRepository.deleteById(id);
+    public boolean delete(Long id) {
+        return bookMapper.delete(id) == 1 ? true : false;
     }
 
     @Override
     public List<CategoryDto> getCateList() {
-        // List<Category> result = categoryRepository.findAll();
-        // return result.stream().map(entity ->
-        // entityToDto(entity)).collect(Collectors.toList());
-        return null;
+        return bookMapper.categories();
     }
 
     @Override
     public List<PublisherDto> getPubList() {
-        // List<Publisher> result = publisherRepository.findAll();
-        // return result.stream().map(entity ->
-        // entityToDto(entity)).collect(Collectors.toList());
-        return null;
+        return bookMapper.publishers();
     }
 
     @Override

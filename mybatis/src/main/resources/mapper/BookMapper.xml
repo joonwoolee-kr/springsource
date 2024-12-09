@@ -3,8 +3,33 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mybatis.mapper.BookMapper">
+
+  <select id="categories" resultType="com.example.mybatis.dto.CategoryDto">
+    select c.CATEGORY_ID as id,c.CATEGORY_NAME from CATEGORY c
+  </select>
+  <select id="publishers" resultType="com.example.mybatis.dto.PublisherDto">
+    select p.PUBLISHER_ID as id, p.PUBLISHER_NAME from PUBLISHER p
+  </select>
+
+  <insert id="create">
+  INSERT INTO booktbl(book_id, title, writer, price, sale_price, created_date_time, last_modified_date_time, CATEGORY_CATEGORY_ID, PUBLISHER_PUBLISHER_ID) 
+  VALUES (book_seq_nextval, #{price}, #{writer}, #{price}, #{salePrice}, current_timestamp, current_timestamp, #{categoryName}, #{publisherName})
+  </insert>
+
+  <update id="update">
+  UPDATE booktbl SET price = #{price}, sale_price = #{salePrice}, last_modified_date_time = current_timestamp WHERE book_id = #{id}
+  </update>
+  <delete id="delete">
+  DELETE FROM booktbl WHERE book_id = #{id}
+  </delete>
+
   <select id="read" resultType="com.example.mybatis.dto.BookDto">
-    select * from booktbl b where b.book_id = #{id}
+    select c.CATEGORY_ID,c.CATEGORY_NAME,b.BOOK_ID AS ID,b.TITLE,b.WRITER, b.SALE_PRICE, b.CREATED_DATE_TIME, p.PUBLISHER_ID,p.PUBLISHER_NAME, b.PRICE from booktbl b 
+    JOIN PUBLISHER p ON
+			b.PUBLISHER_PUBLISHER_ID = p.PUBLISHER_ID
+		JOIN CATEGORY c ON
+			b.CATEGORY_CATEGORY_ID = c.CATEGORY_ID 
+    where b.book_id = #{id}
   </select>
   <select id="listAll" resultType="com.example.mybatis.dto.BookDto">
     <![CDATA[
@@ -37,7 +62,12 @@
     ]]>
   </select>
   <select id="totalCnt" resultType="int">
-    select count(*) from booktbl where <include refid="criteria"></include> book_id > 0
+    select count(*) from booktbl b 
+    JOIN PUBLISHER p ON
+			b.PUBLISHER_PUBLISHER_ID = p.PUBLISHER_ID
+		JOIN CATEGORY c ON
+			b.CATEGORY_CATEGORY_ID = c.CATEGORY_ID 
+    where <include refid="criteria"></include> book_id > 0
   </select>
 
   <sql id="criteria">
@@ -50,9 +80,9 @@
             <when test="type == 'c'.toString()">
                 category_name like '%'||#{keyword}||'%'
             </when>
-            <otherwise>
+            <when test="type == 'w'.toString()">
                 writer like '%'||#{keyword}||'%'
-            </otherwise>
+            </when>
         </choose>
     </trim>
     </trim>

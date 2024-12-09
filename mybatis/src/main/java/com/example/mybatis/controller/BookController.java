@@ -49,21 +49,26 @@ public class BookController {
 
     @PostMapping("/create")
     public String postCreate(@Valid @ModelAttribute("dto") BookDto dto, BindingResult result, Model model,
-            RedirectAttributes rttr) {
+            RedirectAttributes rttr, @ModelAttribute("requestDto") PageRequestDto requestDto) {
         log.info("도서 입력 요청 {}", dto);
-        if (result.hasErrors()) {
-            List<CategoryDto> categoryDtos = bookService.getCateList();
-            List<PublisherDto> publisherDtos = bookService.getPubList();
+        List<CategoryDto> categoryDtos = bookService.getCateList();
+        List<PublisherDto> publisherDtos = bookService.getPubList();
 
-            model.addAttribute("cDtos", categoryDtos);
-            model.addAttribute("pDtos", publisherDtos);
+        model.addAttribute("cDtos", categoryDtos);
+        model.addAttribute("pDtos", publisherDtos);
+        if (result.hasErrors()) {
 
             return "/book/create";
         }
 
         // Service create 호출
-        Long id = bookService.create(dto);
-        rttr.addFlashAttribute("msg", id + "번 도서가 추가되었습니다.");
+        bookService.create(dto);
+        rttr.addFlashAttribute("msg", "도서가 추가되었습니다.");
+
+        rttr.addAttribute("page", 1);
+        rttr.addAttribute("size", requestDto.getSize());
+        rttr.addAttribute("type", requestDto.getType());
+        rttr.addAttribute("keyword", requestDto.getKeyword());
 
         return "redirect:list";
     }
@@ -76,6 +81,8 @@ public class BookController {
         int total = bookService.getTotalCnt(requestDto);
         log.info("list {}", result);
         log.info("total {}", total);
+
+        model.addAttribute("result", new PageResultDto<>(requestDto, total, result));
     }
 
     // 도서 상세 조회
@@ -94,15 +101,17 @@ public class BookController {
         // get 후 post => requestDto 값 사용 가능
         log.info("requestDto {}", requestDto);
 
-        Long id = bookService.update(dto);
+        if (bookService.update(dto)) {
+            rttr.addAttribute("id", dto.getId());
+            rttr.addAttribute("page", requestDto.getPage());
+            rttr.addAttribute("size", requestDto.getSize());
+            rttr.addAttribute("type", requestDto.getType());
+            rttr.addAttribute("keyword", requestDto.getKeyword());
+            return "redirect:read";
+        } else {
+            return "/book/modify";
+        }
 
-        rttr.addAttribute("id", id);
-        rttr.addAttribute("page", requestDto.getPage());
-        rttr.addAttribute("size", requestDto.getSize());
-        rttr.addAttribute("type", requestDto.getType());
-        rttr.addAttribute("keyword", requestDto.getKeyword());
-
-        return "redirect:read";
     }
 
     // 도서 삭제
